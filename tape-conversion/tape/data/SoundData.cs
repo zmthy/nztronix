@@ -10,7 +10,7 @@ namespace tape.data {
   /// <author>Timothy Jones</author>
 	public class SoundData {
 		
-		private static readonly int BitsPerByte = 8, MaxBits = 8;
+		private static readonly int BitsPerByte = 8, MaxBits = 16;
 		
 		public Int32[][] Data      { get; private set; }
 		
@@ -27,15 +27,27 @@ namespace tape.data {
     /// Uses the given stream to read the sound data, partitioning it across
     /// the relevant fields for public access.
     /// </summary>
+    ///
+    /// <remarks>
+    /// See https://ccrma.stanford.edu/courses/422/projects/WaveFormat/ for the
+    /// structure of a wave file.
+    /// </remarks>
     /// 
     /// <param name="stream">
     /// A stream which will return the contents of a WAV-format sound file.
     /// </param>
 		public SoundData(Stream stream) {
 			BinaryReader reader = new BinaryReader(stream);
+
+      // The "RIFF" chunk descriptor.
 			reader.ReadChars(4);
 			reader.ReadInt32();
-			reader.ReadChars(4);
+
+			if (new string(reader.ReadChars(4)) != "WAVE") {
+        throw new Exception("Unexpected audio format.");
+      }
+
+      // The "fmt" sub-chunk.
 			string chunkName = new string(reader.ReadChars(4));
 			int chunkLength  = reader.ReadInt32();
 			
@@ -45,12 +57,13 @@ namespace tape.data {
 			BytesPerSecond  = reader.ReadInt32();
 			BlockAlign      = reader.ReadInt16();
 			BitsPerSample   = reader.ReadInt16();
-			
+
 			if (MaxBits % BitsPerSample != 0) {
 				throw new Exception("The input stream uses an unhandled " +
 				                    "significant bits per sample parameter.");
 			}
-			
+
+      // The "data" sub-chunk
 			reader.ReadChars(chunkLength - 16);
 			chunkName = new string(reader.ReadChars(4));
 			
@@ -91,4 +104,3 @@ namespace tape.data {
 	}
   
 }
-

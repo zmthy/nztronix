@@ -1,0 +1,1 @@
+This software is being built for academic purposes, but feel free to use any part of it for your own purposes.

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A0FE72F5-B96F-44FC-8044-50158E25D133}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>tapeconversion</RootNamespace>
+    <AssemblyName>tape-conversion</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
+    <Reference Include="nunit.core, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="test\" />
+    <Folder Include="tape\" />
+    <Folder Include="tape\data\" />
+    <Folder Include="tape\io\" />
+    <Folder Include="tape\" />
+    <Folder Include="test\pipeline\" />
+    <Folder Include="tape\pipeline\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="tape\TapeConverter.cs" />
+    <Compile Include="tape\data\SoundData.cs" />
+    <Compile Include="tape\io\DataWriter.cs" />
+    <Compile Include="tape\io\DataReader.cs" />
+    <Compile Include="test\pipeline\SignalProcessorTest.cs" />
+    <Compile Include="tape\data\ImageData.cs" />
+    <Compile Include="tape\pipeline\AudioInput.cs" />
+    <Compile Include="tape\pipeline\SignalProcessor.cs" />
+    <Compile Include="tape\data\BinaryData.cs" />
+    <Compile Include="tape\pipeline\ArchiveImageGenerator.cs" />
+  </ItemGroup>
+</Project>

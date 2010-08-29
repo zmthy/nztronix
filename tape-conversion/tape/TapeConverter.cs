@@ -58,7 +58,7 @@ namespace tape {
   	
     // Supplied solely to satisfy the builder in the absence of the rest of the
     // project code. To be removed during project-wide integration.
-  	public static void Main() {}
+    public static void Main() {}
   	
   }
   

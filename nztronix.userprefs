@@ -1,6 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ctype="Workbench" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="tape-conversion/tape/TapeConverter.cs" ctype="Workbench">
+    <Files>
+      <File FileName="tape-conversion/tape/TapeConverter.cs" Line="64" Column="3" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

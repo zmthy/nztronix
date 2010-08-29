@@ -4,10 +4,10 @@ using NUnit.Framework;
 using tape.data;
 using tape.io;
 
-namespace test.data {
+namespace test.io {
 
   [TestFixture]
-  public class SoundDataTest {
+  public class DataReaderTest {
 
     [Test]
     public void TestLoad() {

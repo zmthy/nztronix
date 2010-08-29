@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using NUnit.Framework;
 using tape.data;
+using tape.io;
 
 namespace test.data {
 
@@ -10,13 +11,10 @@ namespace test.data {
 
     [Test]
     public void TestLoad() {
-      Stream stream = new FileStream("test/sine.wav", FileMode.Open);
-      if (!stream.CanRead) {
-        Assert.Fail("Test file is missing.");
-      }
-
-      SoundData data = new SoundData(stream);
-      Assert.AreEqual(1, data.Duration, "The expected duration is one second.");
+      DataReader reader = new DataReader();
+      SoundData data = reader.ReadSoundFile("test/sine.wav");
+      Assert.AreEqual(1, data.Duration,
+                      "The duration of the data is one second");
     }
 
   }

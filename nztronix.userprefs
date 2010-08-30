@@ -1,23 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="tape-conversion/tape/data/SoundData.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="tape-conversion/tape/TapeConverter.cs" ctype="Workbench">
     <Files>
-      <File FileName="tape-conversion/test/data/SoundDataTest.cs" Line="13" Column="37" />
-      <File FileName="tape-conversion/tape/data/SoundData.cs" Line="79" Column="70" />
+      <File FileName="tape-conversion/tape/TapeConverter.cs" Line="22" Column="5" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="tape-conversion" expanded="True">
             <Node name="tape" expanded="True">
-              <Node name="data" expanded="True">
-                <Node name="SoundData.cs" selected="True" />
-              </Node>
-            </Node>
-            <Node name="test" expanded="True">
               <Node name="data" expanded="True" />
-              <Node name="pipeline" expanded="True" />
+              <Node name="io" expanded="True" />
             </Node>
+            <Node name="test" expanded="True" />
           </Node>
         </State>
       </Pad>

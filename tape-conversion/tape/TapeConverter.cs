@@ -30,11 +30,7 @@ namespace tape {
     public void RunPipeline(string destination) {
       SoundData master = input.Record();
       writer.SaveMasterSound(master);
-      
-      SoundData cleaned = processor.RemoveNoise(master);
-      BinaryData binary = processor.ConvertToSquare(cleaned);
-      ImageData image   = generator.CreateImage(binary);
-      writer.SaveArchiveImage(image);
+      RunPipeline(master);
     }
 
     /// <summary>
@@ -49,8 +45,19 @@ namespace tape {
     /// The location where the converted image should be outputted to.
     /// </param>
     public void RunPipeline(string source, string destination) {
-      SoundData master  = reader.ReadSoundFile(source),
-                cleaned = processor.RemoveNoise(master);
+      SoundData master = reader.ReadSoundFile(source);
+      RunPipeline(master);
+    }
+
+    /// <summary>
+    /// Runs the rest of the pipeline on the master recording.
+    /// </summary>
+    ///
+    /// <param name="master">
+    /// The master recording sound data.
+    /// </param>
+    private void RunPipeline(SoundData master) {
+      SoundData cleaned = processor.RemoveNoise(master);
       BinaryData binary = processor.ConvertToSquare(cleaned);
       ImageData image   = generator.CreateImage(binary);
       writer.SaveArchiveImage(image);

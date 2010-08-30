@@ -58,7 +58,6 @@
     <Compile Include="tape\pipeline\SignalProcessor.cs" />
     <Compile Include="tape\data\BinaryData.cs" />
     <Compile Include="tape\pipeline\ArchiveImageGenerator.cs" />
-    <Compile Include="test\data\SoundDataTest.cs" />
     <Compile Include="test\io\DataReaderTest.cs" />
   </ItemGroup>
 </Project>

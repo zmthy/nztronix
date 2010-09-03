@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A0FE72F5-B96F-44FC-8044-50158E25D133}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -33,19 +33,14 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Reference Include="Microsoft.DirectX.DirectSound, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
     <Reference Include="nunit.core, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="test\" />
-    <Folder Include="tape\" />
-    <Folder Include="tape\data\" />
-    <Folder Include="tape\io\" />
-    <Folder Include="tape\" />
-    <Folder Include="test\pipeline\" />
-    <Folder Include="tape\pipeline\" />
-    <Folder Include="test\data\" />
-    <Folder Include="test\io\" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="tape\TapeConverter.cs" />
@@ -59,5 +54,8 @@
     <Compile Include="tape\data\BinaryData.cs" />
     <Compile Include="tape\pipeline\ArchiveImageGenerator.cs" />
     <Compile Include="test\io\DataReaderTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="test\data\" />
   </ItemGroup>
 </Project>

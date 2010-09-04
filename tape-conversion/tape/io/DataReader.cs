@@ -11,7 +11,7 @@ namespace tape.io {
   /// <author>Timothy Jones</author>
   public class DataReader {
 
-    private static readonly int BitsPerByte = 8, MaxBits = 16;
+    public static readonly int BITS_PER_BYTE = 8, MAX_BITS = 16;
 
     /// <summary>
     /// Reads a Wave file and outputs the audio data.
@@ -37,15 +37,12 @@ namespace tape.io {
       BinaryReader reader = new BinaryReader(stream);
 
       // The "RIFF" chunk descriptor.
-      reader.ReadChars(4);
+      ValidateFormat(reader, "RIFF");
       reader.ReadInt32();
-
-      if (new string(reader.ReadChars(4)) != "WAVE") {
-        throw new IOException("Unexpected audio format.");
-      }
+      ValidateFormat(reader, "WAVE");
 
       // The "fmt" sub-chunk.
-      string chunkName = new string(reader.ReadChars(4));
+      ValidateFormat(reader, "fmt ");
       int chunkLength  = reader.ReadInt32();
       
       int compressionCode = reader.ReadInt16(),
@@ -55,52 +52,48 @@ namespace tape.io {
           blockAlign      = reader.ReadInt16(),
           bitsPerSample   = reader.ReadInt16();
 
-      if (MaxBits % bitsPerSample != 0) {
+      if (channelCount > 1) {
+        throw new IOException("Unexpected audio format. Expected 1 channel," +
+                              "got " + channelCount + ".");
+      }
+
+      if (MAX_BITS % bitsPerSample != 0) {
         throw new IOException("The input stream uses an unhandled " +
                             "significant bits per sample parameter.");
       }
 
       // The "data" sub-chunk
-      reader.ReadChars(chunkLength - 16);
-      chunkName = new string(reader.ReadChars(4));
-      
-      try {
-        while (chunkName.ToLower() != "data") {
-          reader.ReadChars(reader.ReadInt32());
-          chunkName = new string(reader.ReadChars(4));
-        }
-      } catch {
-        throw new IOException("Error while reading the data.");
+      string name = "";
+      while (name != "data") {
+        name = new string(reader.ReadChars(4));
       }
       
       chunkLength = reader.ReadInt32();
       int frames = 8 * chunkLength / bitsPerSample / channelCount;
       double duration = ((double) frames) / (double) sampleRate;
+
+      Int16[] data = new Int16[frames];
       
-      Int32[][] data = new Int32[channelCount][];
-      for (int channel = 0; channel < channelCount; ++channel) {
-        data[channel] = new Int32[frames];
-      }
-      
-      int readBits = 0, readBitCount = 0;
-      for (int frame = 0; frame < frames; ++frame) {
-        for (int channel = 0; channel < channelCount; ++channel) {
-          while (readBitCount < bitsPerSample) {
-            readBits |= Convert.ToInt32(reader.ReadByte()) << readBitCount;
-            readBitCount += BitsPerByte;
-          }
-          
-          int excessBitCount = readBitCount - bitsPerSample;
-          data[channel][frame] = readBits >> excessBitCount;
-          readBits %= 1 << excessBitCount;
-          readBitCount = excessBitCount;
-        }
+      for (int i = 0; i < frames; ++i) {
+        data[i] = reader.ReadInt16();
       }
 
-      return new SoundData(data, compressionCode, channelCount, sampleRate,
-                           bytesPerSecond, bitsPerSample, blockAlign, frames,
-                           duration);
+      reader.Close();
+      stream.Close();
+      stream.Dispose();
+
+      return new SoundData(data, compressionCode, sampleRate, bytesPerSecond,
+                           bitsPerSample, blockAlign, duration);
+    }
+
+    private void ValidateFormat(BinaryReader reader, string expected) {
+      string actual = new string(reader.ReadChars(4));
+      if (expected != actual) {
+        throw new IOException("Unexpected audio format. Expected '" + expected
+                              + "', got '" + actual + "'.");
+      }
     }
     
   }
+
 }

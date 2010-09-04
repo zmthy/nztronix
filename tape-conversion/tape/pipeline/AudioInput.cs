@@ -1,18 +1,18 @@
 using System;
 using tape.data;
 using System.Collections;
-using Microsoft.DirectX.DirectSound;
+// using Microsoft.DirectX.DirectSound;
 using System.Reflection;
 
 using System.Threading;
 
+namespace tape.pipeline {
 
-namespace tape.pipeline
- {
+  public class AudioInput {
 
-    public class AudioInput
-    {
-        // botch – not sure if these and IsReady are thread safe for multiple threads
+    public SoundData Record() { return null; }
+
+        /*// botch – not sure if these and IsReady are thread safe for multiple threads
         public int _dwCaptureBufferSize, _dwOutputBufferSize, _dwNotifySize;
         public CaptureBuffer _dwCapBuffer;
        // public SecondaryBuffer[] _dwDevBuffers;
@@ -171,7 +171,7 @@ namespace tape.pipeline
 
 
 
-        }
+        }*/
     }
 }
 

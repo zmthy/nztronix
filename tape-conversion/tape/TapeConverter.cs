@@ -29,7 +29,7 @@ namespace tape {
     /// </param>
     public void RunPipeline(string destination) {
       SoundData master = input.Record();
-      writer.SaveMasterSound(master);
+      writer.WriteSoundFile(master, "");
       RunPipeline(master);
     }
 
@@ -57,10 +57,9 @@ namespace tape {
     /// The master recording sound data.
     /// </param>
     private void RunPipeline(SoundData master) {
-      SoundData cleaned = processor.RemoveNoise(master);
-      BinaryData binary = processor.ConvertToSquare(cleaned);
+      BinaryData binary = processor.ConvertToSquare(master);
       ImageData image   = generator.CreateImage(binary);
-      writer.SaveArchiveImage(image);
+      writer.WriteArchiveImage(image, "");
     }
   	
     // Supplied solely to satisfy the builder in the absence of the rest of the

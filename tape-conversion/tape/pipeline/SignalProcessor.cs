@@ -13,22 +13,6 @@ namespace tape.pipeline {
   public class SignalProcessor {
     
     /// <summary>
-    /// Removes ambient noise that has entered a digital audio file due to the
-    /// recording process, thereby giving a more pure form of the original
-    /// data on the cassette.
-    /// </summary>
-    /// 
-    /// <param name="data">
-    /// The data to clean.
-    /// </param>
-    /// <returns>
-    /// The cleaned data.
-    /// </returns>
-    public SoundData RemoveNoise(SoundData data) {
-      return null;
-    }
-    
-    /// <summary>
     /// Converts audio data into a binary format by squaring off the data.
     /// </summary>
     /// 

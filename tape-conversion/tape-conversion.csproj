@@ -10,6 +10,8 @@
     <RootNamespace>tapeconversion</RootNamespace>
     <AssemblyName>tape-conversion</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,12 +38,16 @@
     <Reference Include="Microsoft.DirectX.DirectSound, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="nunit.framework, Version=2.5.7.10213, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="tape\TapeConverter.cs" />
     <Compile Include="tape\data\SoundData.cs" />
     <Compile Include="tape\io\DataWriter.cs" />
     <Compile Include="tape\io\DataReader.cs" />
+    <Compile Include="test\pipeline\AudioInputTest.cs" />
     <Compile Include="test\pipeline\SignalProcessorTest.cs" />
     <Compile Include="tape\data\ImageData.cs" />
     <Compile Include="tape\pipeline\AudioInput.cs" />

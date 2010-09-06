@@ -28,7 +28,7 @@ namespace tape {
     /// The location where the converted image should be outputted to.
     /// </param>
     public void RunPipeline(string destination) {
-      SoundData master = input.Record();
+      SoundData master = input.Record(null);
       writer.WriteSoundFile(master, "");
       RunPipeline(master);
     }
@@ -64,7 +64,7 @@ namespace tape {
   	
     // Supplied solely to satisfy the builder in the absence of the rest of the
     // project code. To be removed during project-wide integration.
-    public static void Main() {}
+    // public static void Main() {}
   	
   }
   

@@ -5,3 +5,10 @@ C:\Users\Timothy\Documents\Visual Studio 2008\Projects\nztronix\tape-conversion\
 C:\Users\Timothy\Documents\Visual Studio 2008\Projects\nztronix\tape-conversion\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\Users\Timothy\Documents\Visual Studio 2008\Projects\nztronix\tape-conversion\obj\x86\Debug\tape-conversion.exe
 C:\Users\Timothy\Documents\Visual Studio 2008\Projects\nztronix\tape-conversion\obj\x86\Debug\tape-conversion.pdb
+C:\Documents and Settings\Kattex\my_git\nztronix\tape-conversion\obj\x86\Debug\tape-conversion.exe
+C:\Documents and Settings\Kattex\my_git\nztronix\tape-conversion\obj\x86\Debug\tape-conversion.pdb
+C:\Documents and Settings\Kattex\my_git\nztronix\tape-conversion\bin\Debug\tape-conversion.exe
+C:\Documents and Settings\Kattex\my_git\nztronix\tape-conversion\bin\Debug\tape-conversion.pdb
+C:\Documents and Settings\Kattex\my_git\nztronix\tape-conversion\bin\Debug\nunit.framework.dll
+C:\Documents and Settings\Kattex\my_git\nztronix\tape-conversion\bin\Debug\nunit.framework.xml
+C:\Documents and Settings\Kattex\my_git\nztronix\tape-conversion\obj\x86\Debug\ResolveAssemblyReference.cache

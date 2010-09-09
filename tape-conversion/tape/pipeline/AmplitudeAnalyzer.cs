@@ -1,7 +1,7 @@
 ﻿using System;
 using tape.data;
 
-namespace tapeconversion.tape.pipeline {
+namespace tape.pipeline {
 
   /// <summary>
   /// Analyses sound data using amplitude as a guide. As a result, it can split

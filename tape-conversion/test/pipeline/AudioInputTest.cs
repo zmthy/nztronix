@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using tape;
 using tape.pipeline;
 
 namespace test.pipeline {
@@ -10,7 +11,12 @@ namespace test.pipeline {
     [Test]
     public void TestInput() {
       AudioInput input = new AudioInput();
-      // input.Record();
+      TapeConverter converter = new TapeConverter();
+      foreach (string s in converter.GetAudioInputDeviceNames()) {
+        if (s.Contains("Microphone")) {
+          input.Record(converter.GetAudioInputDevice(s));
+        }
+      }
     }
 
   }

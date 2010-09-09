@@ -1,4 +1,5 @@
 using System;
+using Microsoft.DirectX.DirectSound;
 using tape.data;
 using tape.io;
 using tape.pipeline;
@@ -61,11 +62,46 @@ namespace tape {
       ImageData image   = generator.CreateImage(binary);
       writer.WriteArchiveImage(image, "");
     }
-  	
+
+    private CaptureDevicesCollection devices = new CaptureDevicesCollection();
+
+    /// <summary>
+    /// Obtains a list of the audio input devices attached to the computer.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// Note that the collection is reobtained here everytime, on the quite
+    /// possible event that, when prompted with a list of devices, a user plugs
+    /// in a new device, and then reloads the list.
+    /// </remarks>
+    /// 
+    /// <returns>The input devices found.</returns>
+    public string[] GetAudioInputDeviceNames() {
+      devices = new CaptureDevicesCollection();
+      string[] names = new string[devices.Count];
+      for (int i = 0; i < devices.Count; ++i) {
+        names[i] = devices[i].Description;
+      }
+      return names;
+    }
+
+    public Capture GetAudioInputDevice(string name) {
+      if (devices == null) {
+        devices = new CaptureDevicesCollection();
+      }
+      for (int i = 0; i < devices.Count; ++i) {
+        if (devices[i].Description == name) {
+          return new Capture(devices[i].DriverGuid);
+        }
+      }
+
+      throw new ArgumentException("No input device with that name was found.");
+    }
+
     // Supplied solely to satisfy the builder in the absence of the rest of the
     // project code. To be removed during project-wide integration.
     // public static void Main() {}
-  	
+
   }
   
 }

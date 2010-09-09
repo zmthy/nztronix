@@ -10,7 +10,7 @@ namespace test.pipeline {
 
     [Test]
     public void TestInput() {
-      AudioInput input = new AudioInput();
+      AudioRecorder input = new AudioRecorder();
       TapeConverter converter = new TapeConverter();
       foreach (string s in converter.GetAudioInputDeviceNames()) {
         if (s.Contains("Microphone")) {

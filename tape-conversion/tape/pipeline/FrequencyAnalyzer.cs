@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using tape.data;
@@ -14,48 +13,7 @@ namespace tape.pipeline {
   /// 
   /// <author>Timothy Jones</author>
   /// <author>Casey Orr</author>
-  public class BinaryConverter {
-
-    ////So far fields only setup for program reading
-    ////3600 bits of "1"
-    //Int16[] LeaderField = new Int16[3600]; //3 seconds
-
-    ////1 byte long
-    //Int16[] KeyCode = new Int16[8];
-
-    ////16 bytes long (Shorter names followed by spaces)
-    //Int16[] FileName = new Int16[128];
-
-    ////2 bytes
-    //Int16[] ProgramLength = new Int16[16];
-
-    ////2 bytes long
-    //Int16[] StartAddy = new Int16[16];
-
-    ////1 bytes long
-    //Int16[] Parity = new Int16[8];
-
-    ////2 bytes long
-    //Int16[] DummyData = new Int16[16];
-
-    ////3600 bits of "1"
-    //Int16[] LeaderField2 = new Int16[3600];
-
-    ////27H = Program, 17H = Text
-    ////1 byte long
-    //Int16[] KeyCode2 = new Int16[8];
-
-    ////Length of program length
-    //Int16[] Program;
-
-    ////1 byte long
-    //Int16[] Parity2 = new Int16[8];
-
-    ////2 bytes long
-    //Int16[] DummyData2 = new Int16[16];
-
-    ////Keep track of where we are up to in the data
-    //IEnumerator BinData = null;
+  public class FrequencyAnalyzer {
 
     /// <summary>
     /// Converts audio data into a binary format by squaring off the data.
@@ -276,39 +234,6 @@ namespace tape.pipeline {
                Math.Abs(check - (checker ? middle2 : middle1)) < other - check;
       }
     }
-
-    ////Returns the type of program
-    //public string SectionData(BinaryData data) {
-    //  BinData = FindDataStart(data);
-    //  GetSection(LeaderField);
-    //  GetSection(KeyCode);
-
-    //  return "";
-    //}
-
-    ////Returns if the keycode contains the code of text or program
-    //private String GetType() {
-    //  return "";
-    //}
-
-    //private IEnumerator FindDataStart(BinaryData data) {
-    //  IEnumerator BinData = data.GetEnumerator();
-    //  while ((Int16) BinData.Current != data.One) {
-    //    BinData.MoveNext();
-    //  }
-
-    //  return BinData;
-    //}
-
-    //private void GetSection(Int16[] array) {
-    //    if (BinData == null) {
-    //      return;
-    //    }
-    //    for (int i = 0; i < array.Length; i++) {
-    //      array[i] = (Int16)BinData.Current;
-    //      BinData.MoveNext();
-    //    }
-    //}
 
   }
 

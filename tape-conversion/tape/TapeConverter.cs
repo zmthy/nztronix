@@ -16,8 +16,8 @@ namespace tape {
     private DataReader reader = new DataReader();
     private DataWriter writer = new DataWriter();
 
-    private AudioInput input = new AudioInput();
-    private BinaryConverter processor = new BinaryConverter();
+    private AudioRecorder input = new AudioRecorder();
+    private FrequencyAnalyzer processor = new FrequencyAnalyzer();
     private ArchiveImageGenerator generator = new ArchiveImageGenerator();
 
     /// <summary>

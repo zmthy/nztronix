@@ -51,7 +51,7 @@
     <Compile Include="test\pipeline\SignalProcessorTest.cs" />
     <Compile Include="tape\data\ImageData.cs" />
     <Compile Include="tape\pipeline\AudioInput.cs" />
-    <Compile Include="tape\pipeline\SignalProcessor.cs" />
+    <Compile Include="tape\pipeline\BinaryConverter.cs" />
     <Compile Include="tape\data\BinaryData.cs" />
     <Compile Include="tape\pipeline\ArchiveImageGenerator.cs" />
     <Compile Include="test\io\DataReaderTest.cs" />

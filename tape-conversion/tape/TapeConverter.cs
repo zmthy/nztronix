@@ -12,14 +12,14 @@ namespace tape {
   /// 
   /// <author>Timothy Jones</author>
   public class TapeConverter {
-  	
+
     private DataReader reader = new DataReader();
     private DataWriter writer = new DataWriter();
-    
+
     private AudioInput input = new AudioInput();
-    private SignalProcessor processor = new SignalProcessor();
+    private BinaryConverter processor = new BinaryConverter();
     private ArchiveImageGenerator generator = new ArchiveImageGenerator();
-    
+
     /// <summary>
     /// Runs the tape conversion pipeline, starting from a manual recording
     /// entry and ending with a saved game image.
@@ -59,7 +59,7 @@ namespace tape {
     /// </param>
     private void RunPipeline(SoundData master) {
       BinaryData binary = processor.ConvertToSquare(master);
-      ImageData image   = generator.CreateImage(binary);
+      ImageData image = generator.CreateImage(binary);
       writer.WriteArchiveImage(image, "");
     }
 
@@ -85,6 +85,12 @@ namespace tape {
       return names;
     }
 
+    /// <summary>
+    /// Gets the audio input device with the given name.
+    /// </summary>
+    /// 
+    /// <param name="name">The name of the device.</param>
+    /// <returns>The named device.</returns>
     public Capture GetAudioInputDevice(string name) {
       if (devices == null) {
         devices = new CaptureDevicesCollection();
@@ -103,5 +109,5 @@ namespace tape {
     // public static void Main() {}
 
   }
-  
+
 }

@@ -134,12 +134,6 @@ namespace tape.pipeline {
         return 0;
       }
 
-      // BSSS
-      if (!(sample[1] || sample[2] || sample[3])) {
-        // If this happens then the first point has been pushed too far.
-        throw new IOException("Incorrect sample rate, or corrupted data.");
-      }
-
       // BBSB
       if (sample[1] && sample[3]) {
         return 1;
@@ -207,7 +201,8 @@ namespace tape.pipeline {
           sizes[1] = sizes[2] = sizes[3] = true;
         } else {
           // BSSS
-          sizes[0] = true;
+          // Another impossible scenario.
+          throw new IOException("Incorrect sample rate, or corrupted data.");
         }
 
         return sizes;

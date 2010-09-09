@@ -1,6 +1,7 @@
 using System;
 using tape.data;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace tape.pipeline
 {
@@ -57,6 +58,8 @@ namespace tape.pipeline
         //Keep track of where we are up to in the data
         IEnumerator BinData = null;
 
+        const Int16 GAP = 1000; 
+
         /// <summary>
         /// Converts audio data into a binary format by squaring off the data.
         /// </summary>
@@ -67,11 +70,60 @@ namespace tape.pipeline
         /// <returns>
         /// The converted data.
         /// </returns>
-        //"1" = 2 cycles of 2400hz
-        //"0" = 1 cycle of 1200hz
+        //"1" = 2 cycles of 2400hz  (index 0 and 2)
+        //"0" = 1 cycle of 1200hz (index 0 and 1)
         public BinaryData ConvertToSquare(SoundData data)
         {
-            return null;
+            Int16[] sample = new Int16[4];
+            List<Int16> BinData = new List<Int16>(); 
+
+            IEnumerator SData = data.GetEnumerator();
+
+            for (int j = 0; SData.MoveNext(); j = j + 4)
+            {
+                for (int i = j; i < (j+4); i++)
+                {
+                    if (SData.MoveNext())
+                    {
+                        sample[i] = (Int16)SData.Current;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                //BBBS or SSSB then it is suppose to be BBSS
+                //if it is anything else it is BSBS
+                //if first is S then move everything down.
+
+                //If true looking for BBSS
+                if (sample[1] > sample[2])
+                {
+                    //Is the differnce great enough to consider them different sections
+                    if (sample[1] - sample[2] > 1000)
+                    {
+
+                    }
+                }
+                //Else looking for BSBS
+                else
+                {
+                }
+
+                if (sample[3] > sample[2])
+                {
+                    //1
+                    BinData.Add(1);
+                }
+                else
+                {
+                    //0
+                    BinData.Add(0);
+                }
+            }
+
+                return null;
         }
 
         //Returns the type of program
@@ -84,6 +136,7 @@ namespace tape.pipeline
 
         }
 
+        //Returns if the keycode contains the code of text or program
         private String GetType()
         {
         }

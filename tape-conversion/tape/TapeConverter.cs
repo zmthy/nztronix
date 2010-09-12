@@ -3,6 +3,8 @@ using Microsoft.DirectX.DirectSound;
 using tape.data;
 using tape.io;
 using tape.pipeline;
+using test.data;
+using test.pipeline;
 
 namespace tape {
 
@@ -106,7 +108,23 @@ namespace tape {
 
     // Supplied solely to satisfy the builder in the absence of the rest of the
     // project code. To be removed during project-wide integration.
-    // public static void Main() {}
+    public static void Main() {
+      try {
+        new SoundDataTest().TestEnumerator();
+        new BinaryDataTest().TestEnumerator();
+        new AmplitudeAnalyzerTest().TestChunking();
+        Console.WriteLine("Amplitude tested successfully.");
+        FrequencyAnalyzerTest test = new FrequencyAnalyzerTest();
+        test.TestGoodData();
+        Console.WriteLine("Good data tested successfully.");
+        test.TestBadData();
+        Console.WriteLine("Bad data tested successfully.");
+        test.TestLowQualityData();
+        Console.WriteLine("LQ data tested successfully.");
+      } catch (Exception e) {
+        Console.WriteLine(e);
+      }
+    }
 
   }
 

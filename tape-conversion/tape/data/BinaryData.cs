@@ -40,9 +40,6 @@ namespace tape.data {
 
     public BinaryEnumerator(bool[] data) {
       Data = data;
-      if (data != null) {
-        Position = 0;
-      }
     }
 
     object IEnumerator.Current {

@@ -4,7 +4,7 @@ using NUnit.Framework;
 using tape.data;
 using tape.pipeline;
 
-namespace tapeconversion.test.pipeline {
+namespace test.pipeline {
 
   [TestFixture]
   class AmplitudeAnalyzerTest {
@@ -14,6 +14,7 @@ namespace tapeconversion.test.pipeline {
     [Test]
     public void TestChunking() {
       Int16[] data = {
+                       12, 13, 15, 12, 16, 12, 13, 14, 15, 13, 12, 13,
                        12, 13, 15, 12, 16, 12, 13, 14, 15, 13, 12, 13,
                        5000,
                        50,

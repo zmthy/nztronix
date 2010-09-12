@@ -35,14 +35,10 @@ namespace test.pipeline {
       BinaryData bin = analyzer.ConvertToSquare(audio);
       IEnumerator<bool> ie = bin.GetEnumerator();
 
-      ie.MoveNext();
-      Assert.AreEqual(true, ie.Current);
-      ie.MoveNext();
-      Assert.AreEqual(false, ie.Current);
-      ie.MoveNext();
-      Assert.AreEqual(true, ie.Current);
-      ie.MoveNext();
-      Assert.AreEqual(false, ie.Current);
+      for (int i = 0; i < 4; ++i) {
+        ie.MoveNext();
+        Assert.AreEqual(i % 2 == 0, ie.Current, "Sample " + i);
+      }
   	}
 
     [Test]
@@ -74,12 +70,16 @@ namespace test.pipeline {
                        5231,
                        54,
                        34,
-                       23
+                       34
                      };
       SoundData audio = new SoundData(data, 0, 0, 0, 0, 0, 0);
-
       BinaryData bin = analyzer.ConvertToSquare(audio);
-      Assert.Fail("An exception was expected, but not thrown.");
+      IEnumerator<bool> ie = bin.GetEnumerator();
+
+      for (int i = 0; i < 2; ++i) {
+        ie.MoveNext();
+        Assert.AreEqual(i % 2 == 0, ie.Current, "Sample " + i);
+      }
     }
   	
   }

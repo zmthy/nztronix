@@ -28,13 +28,16 @@ namespace tape.data {
     public SoundData(Int16[] data, int compressionCode, int sampleRate,
                  int bytesPerSecond, int bitsPerSample, int blockAlign,
                  double duration) {
-      Data = data;
       CompressionCode = compressionCode;
       SampleRate = sampleRate;
       BytesPerSecond = bytesPerSecond;
       BitsPerSample = bitsPerSample;
       BlockAlign = blockAlign;
       Duration = duration;
+      Data = new Int16[data.Length];
+      for (int i = 0; i < data.Length; ++i) {
+        Data[i] = data[i];
+      }
     }
 
     IEnumerator IEnumerable.GetEnumerator() {
@@ -53,9 +56,6 @@ namespace tape.data {
 
       public DataEnumerator(Int16[] data) {
         Data = data;
-        if (data != null) {
-          Position = 0;
-        }
       }
 
       object IEnumerator.Current {
@@ -81,7 +81,7 @@ namespace tape.data {
 
       public void Reset() {
         if (!Disposed) {
-          Position = 0;
+          Position = -1;
         }
       }
 

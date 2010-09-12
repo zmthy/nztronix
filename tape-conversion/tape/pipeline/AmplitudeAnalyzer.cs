@@ -53,25 +53,40 @@ namespace tape.pipeline {
       float average = 0;
       int count = 0;
 
-      while (true) {
-        Int16 i = ie.Current;
+      do {
+        Int16 level = ie.Current;
 
         // Eat a little first to even out the average, then start checking.
         if (count >= 20) {
-          if (i > 5 * average) {
-            // Probably the start of some data! Let's just check a couple more
+          if (level > 5 * average) {
+            // Probably the sstart of some data! Let's just check a couple more
             // data points to make sure.
-            break;
+            FrequencyAnalyzer analyzer = new FrequencyAnalyzer();
+            Int16[] sample = new Int16[4];
+            for (int i = 0; i < 4; ++i) {
+              sample[i] = level = ie.Current;
+              ie.MoveNext();
+            }
+
+            try {
+              // This probably isn't really enough to tell, but it's close.
+              bool[] sizes = analyzer.NormalizeSample(ie, sample);
+              // Nothing thrown, so we have data.
+              RipChunk(sample, ie);
+            } catch {
+              // Not data! Oh well, just keep looking.
+            }
           }
         }
 
         // Don't let data or spikes screw up our noise muffler.
-        if (!(i > 5 * average)) {
-          average = (average * count + i) / ++count;
+        if (count < 20 || !(level > 5 * average)) {
+          average = (average * count + level) / ++count;
+        } else {
+          count++;
         }
 
-        ie.MoveNext();
-      }
+      } while (ie.MoveNext());
 
       return chunks;
     }

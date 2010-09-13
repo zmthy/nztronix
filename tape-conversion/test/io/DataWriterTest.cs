@@ -11,8 +11,8 @@ namespace test.io {
 
     [Test]
     public void TestWrite() {
-      DataReader reader = new DataReader();
-      DataWriter writer = new DataWriter();
+      AudioReader reader = new AudioReader();
+      AudioWriter writer = new AudioWriter();
 
       SoundData original = reader.ReadSoundFile("test/sine.wav");
       writer.WriteSoundFile(original, "test/written.wav");

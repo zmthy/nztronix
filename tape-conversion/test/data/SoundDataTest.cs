@@ -11,7 +11,7 @@ namespace test.data {
 
     [Test]
     public void TestData() {
-      DataReader reader = new DataReader();
+      AudioReader reader = new AudioReader();
       SoundData data = reader.ReadSoundFile("test/sine.wav");
 
       int length = 0;

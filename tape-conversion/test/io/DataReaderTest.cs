@@ -11,7 +11,7 @@ namespace test.io {
 
     [Test]
     public void TestRead() {
-      DataReader reader = new DataReader();
+      AudioReader reader = new AudioReader();
       SoundData data = reader.ReadSoundFile("test/sine.wav");
       Assert.AreEqual(1, data.Duration,
                       "The duration of the data is one second");

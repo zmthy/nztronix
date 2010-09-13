@@ -4,6 +4,7 @@ using tape.data;
 using tape.io;
 using tape.pipeline;
 using test.data;
+using test.io;
 using test.pipeline;
 
 namespace tape {
@@ -15,8 +16,8 @@ namespace tape {
   /// <author>Timothy Jones</author>
   public class TapeConverter {
 
-    private DataReader reader = new DataReader();
-    private DataWriter writer = new DataWriter();
+    private AudioReader reader = new AudioReader();
+    private AudioWriter writer = new AudioWriter();
 
     private AudioRecorder input = new AudioRecorder();
     private FrequencyAnalyzer processor = new FrequencyAnalyzer();
@@ -110,6 +111,7 @@ namespace tape {
     // project code. To be removed during project-wide integration.
     public static void Main() {
       try {
+          /*
         new SoundDataTest().TestEnumerator();
         new BinaryDataTest().TestEnumerator();
         new AmplitudeAnalyzerTest().TestChunking();
@@ -121,6 +123,11 @@ namespace tape {
         Console.WriteLine("Bad data tested successfully.");
         test.TestLowQualityData();
         Console.WriteLine("LQ data tested successfully.");
+          */
+
+        FileWriterTest test = new FileWriterTest();
+        test.TestWrite();
+
       } catch (Exception e) {
         Console.WriteLine(e);
       }

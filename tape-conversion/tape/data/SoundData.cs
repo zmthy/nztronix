@@ -15,7 +15,7 @@ namespace tape.data {
     private readonly Int16[] Data;
     public readonly double Duration;
     public readonly int CompressionCode,
-                    SampleRate,
+                        SampleRate,
                         BytesPerSecond,
                         BitsPerSample,
                         BlockAlign;

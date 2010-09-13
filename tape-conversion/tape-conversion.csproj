@@ -43,12 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="tape\io\FileReader.cs" />
+    <Compile Include="tape\io\FileWriter.cs" />
     <Compile Include="tape\pipeline\AmplitudeAnalyzer.cs" />
     <Compile Include="tape\TapeConverter.cs" />
     <Compile Include="tape\data\SoundData.cs" />
-    <Compile Include="tape\io\DataWriter.cs" />
-    <Compile Include="tape\io\DataReader.cs" />
+    <Compile Include="tape\io\AudioWriter.cs" />
+    <Compile Include="tape\io\AudioReader.cs" />
     <Compile Include="test\data\BinaryDataTest.cs" />
+    <Compile Include="test\io\FileWriterTest.cs" />
     <Compile Include="test\pipeline\AmplitudeAnalyzerTest.cs" />
     <Compile Include="test\pipeline\AudioRecorderTest.cs" />
     <Compile Include="test\pipeline\FrequencyAnalyzerTest.cs" />

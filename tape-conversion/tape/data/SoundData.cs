@@ -40,6 +40,13 @@ namespace tape.data {
       }
     }
 
+    public SoundData(List<Int16> data) {
+      Data = new Int16[data.Count];
+      for (int i = 0; i < data.Count; ++i) {
+        Data[i] = data[i];
+      }
+    }
+
     IEnumerator IEnumerable.GetEnumerator() {
       return (IEnumerator) GetEnumerator();
     }

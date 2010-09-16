@@ -53,26 +53,30 @@ namespace tape.pipeline {
       float average = 0;
       int count = 0;
 
+      ie.MoveNext();
+
       do {
         Int16 level = ie.Current;
 
         // Eat a little first to even out the average, then start checking.
         if (count >= 20) {
           if (level > 5 * average) {
-            // Probably the sstart of some data! Let's just check a couple more
+            // Probably the start of some data! Let's just check a couple more
             // data points to make sure.
             FrequencyAnalyzer analyzer = new FrequencyAnalyzer();
             Int16[] sample = new Int16[4];
             for (int i = 0; i < 4; ++i) {
               sample[i] = level = ie.Current;
-              ie.MoveNext();
+              if (!ie.MoveNext()) {
+                return chunks;
+              }
             }
 
             try {
               // This probably isn't really enough to tell, but it's close.
               bool[] sizes = analyzer.NormalizeSample(ie, sample);
               // Nothing thrown, so we have data.
-              RipChunk(sample, ie);
+              chunks.Add(RipChunk(sample, ie, average));
             } catch {
               // Not data! Oh well, just keep looking.
             }
@@ -102,8 +106,52 @@ namespace tape.pipeline {
     /// 
     /// <param name="testData">The data used by the trimmer.</param>
     /// <param name="ie">The rest of the data.</param>
-    private SoundData RipChunk(Int16[] testData, IEnumerator<Int16> ie) {
-      return null;
+    private SoundData RipChunk(Int16[] testData, IEnumerator<Int16> ie,
+        float average) {
+      List<Int16> data = new List<Int16>();
+      data.AddRange(testData);
+
+      int old = -1;
+      Int16 val = -1;
+      while (true) {
+        Int16[] samples = new Int16[3];
+        int position = -1;
+        for (int i = 0; i < 3; ++i) {
+          samples[i] = ie.Current;
+          if (ie.Current > average * 5) {
+            position = i;
+          }
+
+          if (!ie.MoveNext()) {
+            data.AddRange(samples);
+            data.TrimExcess();
+            return new SoundData(data);
+          }
+        }
+
+        if (position > -1) {
+          if (val != -1) {
+            data.Add(val);
+          }
+          data.AddRange(samples);
+        } else {
+          if (old != 0) {
+            data.Add(val);
+            for (int i = 0; i < position - 1; ++i) {
+              data.Add(val);
+            }
+          }
+          return new SoundData(data);
+        }
+
+        val = ie.Current;
+        if (!ie.MoveNext()) {
+          data.Add(val);
+          return new SoundData(data);
+        }
+
+        old = position;
+      }
     }
 
   }

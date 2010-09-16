@@ -41,7 +41,7 @@ namespace test.pipeline {
 
       for (int a = 0; a < 2; ++a) {
         IEnumerator<Int16> ie = chunks[a].GetEnumerator();
-        for (int i = 12; i < 20; ++i) {
+        for (int i = 24; i < 32; ++i) {
           ie.MoveNext();
           Assert.AreEqual(data[i], ie.Current);
         }

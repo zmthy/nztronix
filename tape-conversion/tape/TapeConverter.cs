@@ -21,7 +21,7 @@ namespace tape {
 
     private AudioRecorder input = new AudioRecorder();
     private FrequencyAnalyzer processor = new FrequencyAnalyzer();
-    private ArchiveImageGenerator generator = new ArchiveImageGenerator();
+    private WavGenerator generator = new WavGenerator();
 
     /// <summary>
     /// Runs the tape conversion pipeline, starting from a manual recording

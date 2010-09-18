@@ -59,7 +59,7 @@
     <Compile Include="tape\pipeline\AudioRecorder.cs" />
     <Compile Include="tape\pipeline\FrequencyAnalyzer.cs" />
     <Compile Include="tape\data\BinaryData.cs" />
-    <Compile Include="tape\pipeline\ArchiveImageGenerator.cs" />
+    <Compile Include="tape\pipeline\WavGenerator.cs" />
     <Compile Include="test\io\DataReaderTest.cs" />
     <Compile Include="test\io\DataWriterTest.cs" />
     <Compile Include="test\data\SoundDataTest.cs" />

@@ -37,7 +37,7 @@ namespace tape.data {
         }
 
         byte b = 0;
-        for (int i = 7; i >= 0; ++i) {
+        for (int i = 0; i < 8; ++i) {
           MoveNext(ie);
           if (ie.Current) {
             b += (byte) (1 << i);

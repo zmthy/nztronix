@@ -13,12 +13,10 @@ namespace tape.data {
   public class BinaryData : IEnumerable<bool> {
 
     private readonly bool[] Data;
-    public int Length
-    {
-        get
-        {
-            return Data.Length;
-        }
+    public int Length {
+      get {
+        return Data.Length;
+      }
     }
 
     public BinaryData(List<bool> data) {
@@ -27,7 +25,6 @@ namespace tape.data {
         Data[i] = data[i];
       }
     }
-
 
     IEnumerator IEnumerable.GetEnumerator() {
       return (IEnumerator) GetEnumerator();

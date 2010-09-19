@@ -15,7 +15,7 @@ namespace test.io {
       AudioWriter writer = new AudioWriter();
 
       SoundData original = reader.ReadSoundFile("test/sine.wav");
-      writer.WriteSoundFile(original, "test/written.wav");
+      writer.WriteSoundData(original, "test/written.wav");
       SoundData written = reader.ReadSoundFile("test/written.wav");
 
       Assert.AreEqual(original.Length, written.Length, "The written data " +

@@ -2,108 +2,98 @@ using System;
 using System.IO;
 using tape.data;
 
-namespace tape.io
-{
+namespace tape.io {
+
+  /// <summary>
+  /// Reads Wave files and outputs a SoundData that holds the audio data.
+  /// </summary>
+  ///
+  /// <author>Timothy Jones</author>
+  public class AudioReader {
+
+    public static readonly int BITS_PER_BYTE = 8, MAX_BITS = 16;
 
     /// <summary>
-    /// Reads Wave files and outputs a SoundData that holds the audio data.
+    /// Reads a Wave file and outputs the audio data.
     /// </summary>
     ///
-    /// <author>Timothy Jones</author>
-    public class AudioReader
-    {
+    /// <remarks>
+    /// See https://ccrma.stanford.edu/courses/422/projects/WaveFormat/ for the
+    /// structure of a wave file.
+    /// </remarks>
+    ///
+    /// <param name="source">
+    /// The location of the audio file to read.
+    /// </param>
+    /// <returns>
+    /// The audio data as a <see cref="tape.data.SoundData"/> file.
+    /// </returns>
+    public SoundData ReadSoundFile(string source) {
+      Stream stream = new FileStream(source, FileMode.Open);
+      if (!stream.CanRead) {
+        throw new IOException("File not found.");
+      }
 
-        public static readonly int BITS_PER_BYTE = 8, MAX_BITS = 16;
+      BinaryReader reader = new BinaryReader(stream);
 
-        /// <summary>
-        /// Reads a Wave file and outputs the audio data.
-        /// </summary>
-        ///
-        /// <remarks>
-        /// See https://ccrma.stanford.edu/courses/422/projects/WaveFormat/ for the
-        /// structure of a wave file.
-        /// </remarks>
-        ///
-        /// <param name="source">
-        /// The location of the audio file to read.
-        /// </param>
-        /// <returns>
-        /// The audio data as a <see cref="tape.data.SoundData"/> file.
-        /// </returns>
-        public SoundData ReadSoundFile(string source)
-        {
-            Stream stream = new FileStream(source, FileMode.Open);
-            if (!stream.CanRead)
-            {
-                throw new IOException("File not found.");
-            }
+      // The "RIFF" chunk descriptor.
+      ValidateFormat(reader, "RIFF");
+      reader.ReadInt32();
+      ValidateFormat(reader, "WAVE");
 
-            BinaryReader reader = new BinaryReader(stream);
+      // The "fmt" sub-chunk.
+      ValidateFormat(reader, "fmt ");
+      int chunkLength = reader.ReadInt32();
 
-            // The "RIFF" chunk descriptor.
-            ValidateFormat(reader, "RIFF");
-            reader.ReadInt32();
-            ValidateFormat(reader, "WAVE");
+      int compressionCode = reader.ReadInt16(),
+          channelCount = reader.ReadInt16(),
+          sampleRate = reader.ReadInt32(),
+          bytesPerSecond = reader.ReadInt32(),
+          blockAlign = reader.ReadInt16(),
+          bitsPerSample = reader.ReadInt16();
 
-            // The "fmt" sub-chunk.
-            ValidateFormat(reader, "fmt ");
-            int chunkLength = reader.ReadInt32();
+      if (channelCount > 1) {
+        throw new IOException("Unexpected audio format. Expected 1 channel," +
+                              "got " + channelCount + ".");
+      }
 
-            int compressionCode = reader.ReadInt16(),
-                channelCount = reader.ReadInt16(),
-                sampleRate = reader.ReadInt32(),
-                bytesPerSecond = reader.ReadInt32(),
-                blockAlign = reader.ReadInt16(),
-                bitsPerSample = reader.ReadInt16();
+      if (MAX_BITS % bitsPerSample != 0) {
+        throw new IOException("The input stream uses an unhandled " +
+                              "significant bits per sample parameter.");
+      }
 
-            if (channelCount > 1)
-            {
-                throw new IOException("Unexpected audio format. Expected 1 channel," +
-                                      "got " + channelCount + ".");
-            }
+      // The "data" sub-chunk
+      string name = "";
+      while (name != "data") {
+         name = new string(reader.ReadChars(4));
+      }
 
-            if (MAX_BITS % bitsPerSample != 0)
-            {
-                throw new IOException("The input stream uses an unhandled " +
-                                    "significant bits per sample parameter.");
-            }
+      chunkLength = reader.ReadInt32();
+      int frames = 8 * chunkLength / bitsPerSample / channelCount;
+      double duration = ((double)frames) / (double)sampleRate;
 
-            // The "data" sub-chunk
-            string name = "";
-            while (name != "data")
-            {
-                name = new string(reader.ReadChars(4));
-            }
+      Int16[] data = new Int16[frames];
 
-            chunkLength = reader.ReadInt32();
-            int frames = 8 * chunkLength / bitsPerSample / channelCount;
-            double duration = ((double)frames) / (double)sampleRate;
+      for (int i = 0; i < frames; ++i) {
+         data[i] = reader.ReadInt16();
+      }
 
-            Int16[] data = new Int16[frames];
+      reader.Close();
+      stream.Close();
+      stream.Dispose();
 
-            for (int i = 0; i < frames; ++i)
-            {
-                data[i] = reader.ReadInt16();
-            }
-
-            reader.Close();
-            stream.Close();
-            stream.Dispose();
-
-            return new SoundData(data, compressionCode, sampleRate, bytesPerSecond,
-                                 bitsPerSample, blockAlign, duration);
-        }
-
-        private void ValidateFormat(BinaryReader reader, string expected)
-        {
-            string actual = new string(reader.ReadChars(4));
-            if (expected != actual)
-            {
-                throw new IOException("Unexpected audio format. Expected '" + expected
-                                      + "', got '" + actual + "'.");
-            }
-        }
-
+      return new SoundData(data, compressionCode, sampleRate, bytesPerSecond,
+                           bitsPerSample, blockAlign, duration);
     }
+
+    private void ValidateFormat(BinaryReader reader, string expected) {
+      string actual = new string(reader.ReadChars(4));
+      if (expected != actual) {
+        throw new IOException("Unexpected audio format. Expected '" + expected
+                              + "', got '" + actual + "'.");
+      }
+    }
+
+  }
 
 }

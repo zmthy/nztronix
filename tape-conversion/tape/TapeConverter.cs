@@ -33,7 +33,7 @@ namespace tape {
     /// </param>
     public void RunPipeline(string destination) {
       SoundData master = input.Record(null);
-      writer.WriteSoundFile(master, "");
+      writer.WriteSoundData(master, "");
       RunPipeline(master);
     }
 

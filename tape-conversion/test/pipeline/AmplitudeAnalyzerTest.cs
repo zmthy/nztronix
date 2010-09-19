@@ -9,41 +9,55 @@ namespace test.pipeline {
   [TestFixture]
   class AmplitudeAnalyzerTest {
 
-    private AmplitudeAnalyzer analyzer = new AmplitudeAnalyzer();
+    private AmplitudeAnalyzer Analyzer = new AmplitudeAnalyzer();
+    private readonly Int16[] Dirty = new Int16[1000],
+                             Leader = new Int16[3600],
+                             Data = new Int16[1000];
+    private static readonly Int16[] Value1 = { 5000, 50, 5000, 50 },
+                                    Value2 = { 5000, 5000, 50, 50 };
+    private static readonly Int16[][] DataValues = { Value1, Value2 };
+
+    public AmplitudeAnalyzerTest() {
+      for (int i = 0; i < Dirty.Length; ++i) {
+        Dirty[i] = (Int16) new Random().Next(20);
+      }
+      
+      for (int i = 0; i < Leader.Length; i += 4) {
+        for (int j = 0; j < 4; ++j) {
+          Leader[i + j] = Value1[j];
+        }
+      }
+
+      for (int i = 0; i < Data.Length; i += 4) {
+        Int16[] value = DataValues[(int) (new Random().NextDouble() * 2)];
+        for (int j = 0; j < 4; ++j) {
+          Data[i + j] = value[j];
+        }
+      }
+    }
 
     [Test]
     public void TestChunking() {
-      Int16[] data = {
-                       12, 13, 15, 12, 16, 12, 13, 14, 15, 13, 12, 13,
-                       12, 13, 15, 12, 16, 12, 13, 14, 15, 13, 12, 13,
-                       5000,
-                       50,
-                       5000,
-                       50,
-                       5000,
-                       5000,
-                       50,
-                       50,
-                       12, 13, 15, 12, 16, 12, 13, 14, 15, 13, 12, 13,
-                       5000,
-                       50,
-                       5000,
-                       50,
-                       5000,
-                       5000,
-                       50,
-                       50,
-                       12, 13, 15, 12, 16, 12, 13, 14, 15, 13, 12, 13
-                     };
-      SoundData audio = new SoundData(data, 0, 0, 0, 0, 0, 0);
-      SoundData[] chunks = analyzer.SplitChunks(audio);
+      List<Int16> data = new List<Int16>();
+      data.AddRange(Dirty);
+      data.AddRange(Leader);
+      data.AddRange(Data);
+      data.AddRange(Dirty);
+      // Note that this won't be read, as there is no leader.
+      data.AddRange(Data);
+      data.AddRange(Dirty);
+      data.AddRange(Leader);
+      data.AddRange(Data);
+      data.AddRange(Dirty);
+      SoundData audio = new SoundData(data);
+      SoundData[] chunks = Analyzer.SplitChunks(audio);
       Assert.AreEqual(2, chunks.Length, "The test should produce 2 chunks.");
 
-      for (int a = 0; a < 2; ++a) {
-        IEnumerator<Int16> ie = chunks[a].GetEnumerator();
-        for (int i = 24; i < 32; ++i) {
+      for (int i = 0; i < 2; ++i) {
+        IEnumerator<Int16> ie = chunks[i].GetEnumerator();
+        for (int j = 0; j < Data.Length; ++j) {
           ie.MoveNext();
-          Assert.AreEqual(data[i], ie.Current);
+          Assert.AreEqual(Data[j], ie.Current);
         }
         Assert.IsFalse(ie.MoveNext());
       }

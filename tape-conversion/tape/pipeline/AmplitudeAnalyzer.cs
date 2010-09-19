@@ -89,16 +89,25 @@ namespace tape.pipeline {
       // data points to make sure.
       FrequencyAnalyzer analyzer = new FrequencyAnalyzer();
       Int16[] sample = new Int16[4];
-      for (int i = 0; i < 4; ++i) {
-        sample[i] = ie.Current;
-        if (!ie.MoveNext()) {
-          return false;
-        }
-      }
 
       try {
-        // This probably isn't really enough to tell, but it's close.
-        bool[] sizes = analyzer.NormalizeSample(ie, sample);
+        // The leader field is 3600 bits long.
+        for (int i = 0; i < 3600; ++i) {
+          for (int j = 0; j < 4; ++j) {
+            sample[j] = ie.Current;
+            if (!ie.MoveNext()) {
+              return false;
+            }
+          }
+
+          // Normalise the sample to check if it fits the leader spec.
+          bool[] sizes = analyzer.NormalizeSample(ie, sample);
+          if (sizes[2] != true) {
+            // The leader field is all 1s.
+            return false;
+          }
+        }
+
         // Nothing thrown, so we have data.
         return true;
       } catch {

@@ -62,8 +62,8 @@ namespace tape {
     /// </param>
     private void RunPipeline(SoundData master) {
       BinaryData binary = processor.ConvertToSquare(master);
-      ImageData image = generator.CreateImage(binary);
-      writer.WriteArchiveImage(image, "");
+      // ImageData image = generator.CreateImage(binary);
+      // writer.WriteArchiveImage(image, "");
     }
 
     private CaptureDevicesCollection devices = new CaptureDevicesCollection();

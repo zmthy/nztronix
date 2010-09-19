@@ -1,2 +1,7 @@
 bin/*
 obj/*
+*.userprefs
+*.sln
+*.suo
+*.csproj
+*.pidb

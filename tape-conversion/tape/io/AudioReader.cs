@@ -52,7 +52,12 @@ namespace tape.io {
           blockAlign = reader.ReadInt16(),
           bitsPerSample = reader.ReadInt16();
 
-      if (channelCount > 1) {
+      if (compressionCode != 1) {
+        throw new IOException("Unexpected audio format. Expected compression" +
+                              " code of 1, got " + compressionCode + ".");
+      }
+
+      if (channelCount != 1) {
         throw new IOException("Unexpected audio format. Expected 1 channel," +
                               "got " + channelCount + ".");
       }

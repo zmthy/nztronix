@@ -10,9 +10,9 @@ namespace test.pipeline {
   class AmplitudeAnalyzerTest {
 
     private AmplitudeAnalyzer Analyzer = new AmplitudeAnalyzer();
-    private readonly Int16[] Dirty = new Int16[1000],
-                             Leader = new Int16[3600],
-                             Data = new Int16[1000];
+    private readonly Int16[] Dirty = new Int16[8000],
+                             Leader = new Int16[14400],
+                             Data = new Int16[8000];
     private static readonly Int16[] Value1 = { 5000, 50, 5000, 50 },
                                     Value2 = { 5000, 5000, 50, 50 };
     private static readonly Int16[][] DataValues = { Value1, Value2 };

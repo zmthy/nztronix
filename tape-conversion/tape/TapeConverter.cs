@@ -128,7 +128,7 @@ namespace tape {
         Console.WriteLine("LQ data tested successfully.");
 
         new FileWriterTest().TestWrite();
-
+        Console.WriteLine("File writer tested successfully.");
       } catch (Exception e) {
         Console.WriteLine(e);
       }

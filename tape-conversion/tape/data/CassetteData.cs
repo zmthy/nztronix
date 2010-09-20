@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace tape.data {
   
@@ -7,16 +9,27 @@ namespace tape.data {
   /// </summary>
   /// 
   /// <author>Timothy Jones</author>
-  public class CassetteData {
+  public class CassetteData : IEnumerable<byte> {
 
     public readonly String Filename;
-    public readonly int Length;
-    public readonly ByteData Program;
+    private readonly ByteData Program;
+    public int Length {
+      get {
+        return Program.Length;
+      }
+    }
 
     public CassetteData(String filename, int length, ByteData program) {
       Filename = filename;
-      Length = length;
       Program = program;
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() {
+      return (IEnumerator) GetEnumerator();
+    }
+
+    public IEnumerator<byte> GetEnumerator() {
+      return Program.GetEnumerator();
     }
 
   }

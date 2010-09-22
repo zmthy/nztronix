@@ -1,0 +1,11 @@
+C:\Users\Timothy\Projects\nztronix\test\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Timothy\Projects\nztronix\test\bin\Release\test.exe
+C:\Users\Timothy\Projects\nztronix\test\bin\Release\test.pdb
+C:\Users\Timothy\Projects\nztronix\test\bin\Release\nunit.core.dll
+C:\Users\Timothy\Projects\nztronix\test\bin\Release\nunit.framework.dll
+C:\Users\Timothy\Projects\nztronix\test\bin\Release\nunit.core.interfaces.dll
+C:\Users\Timothy\Projects\nztronix\test\bin\Release\nunit.framework.xml
+C:\Users\Timothy\Projects\nztronix\test\obj\Release\test.exe
+C:\Users\Timothy\Projects\nztronix\test\obj\Release\test.pdb
+C:\Users\Timothy\Projects\nztronix\test\bin\Release\tape.exe
+C:\Users\Timothy\Projects\nztronix\test\bin\Release\tape.pdb

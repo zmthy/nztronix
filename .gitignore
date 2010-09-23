@@ -1,7 +1,10 @@
-bin/*
-obj/*
+tape/bin/*
+tape/obj/*
+test/bin/*
+test/obj/*
 *.userprefs
 *.sln
 *.suo
 *.csproj
 *.pidb
+file-system.wav

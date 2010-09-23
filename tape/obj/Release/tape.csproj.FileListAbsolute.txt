@@ -1,5 +1,0 @@
-C:\Users\Timothy\Projects\nztronix\tape\bin\Release\tape.exe
-C:\Users\Timothy\Projects\nztronix\tape\bin\Release\tape.pdb
-C:\Users\Timothy\Projects\nztronix\tape\obj\Release\ResolveAssemblyReference.cache
-C:\Users\Timothy\Projects\nztronix\tape\obj\Release\tape.exe
-C:\Users\Timothy\Projects\nztronix\tape\obj\Release\tape.pdb

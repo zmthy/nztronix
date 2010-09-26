@@ -13,7 +13,9 @@ namespace test {
     public void TestPipeline() {
       AudioReader reader = new AudioReader();
       SoundData audio = reader.ReadSoundFile("../../../data/file-system.wav");
-      SoundData[] chunks = new AmplitudeAnalyzer().SplitChunks(audio);
+      AmplitudeAnalyzer ampAnalyzer = new AmplitudeAnalyzer();
+      ampAnalyzer.SetVerbosity(true);
+      SoundData[] chunks = ampAnalyzer.SplitChunks(audio);
       Assert.AreEqual(2, chunks.Length, "Two chunks are in the file.");
     }
 

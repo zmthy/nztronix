@@ -7,19 +7,21 @@ using tape.pipeline;
 namespace test.pipeline {
 
   [TestFixture]
-  class AmplitudeAnalyzerTest {
+  public class AmplitudeAnalyzerTest {
 
     private AmplitudeAnalyzer Analyzer = new AmplitudeAnalyzer();
-    private readonly Int16[] Dirty = new Int16[8000],
+    private readonly Int16[] Dirty = new Int16[12000],
                              Leader = new Int16[14400],
                              Data = new Int16[8000];
-    private static readonly Int16[] Value1 = { 5000, 50, 5000, 50 },
-                                    Value2 = { 5000, 5000, 50, 50 };
+    private static readonly Int16[] Value1 = { 5000, -5000, 5000, -5000 },
+                                    Value2 = { 5000, 5000, -5000, -5000 };
     private static readonly Int16[][] DataValues = { Value1, Value2 };
 
     public AmplitudeAnalyzerTest() {
+      Random random = new Random();
       for (int i = 0; i < Dirty.Length; ++i) {
-        Dirty[i] = (Int16) new Random().Next(20);
+        Dirty[i] = (Int16) (random.Next(20) *
+            (random.NextDouble() - 0.5 < 0 ? -1 : 1));
       }
 
       for (int i = 0; i < Leader.Length; i += 4) {
@@ -29,7 +31,7 @@ namespace test.pipeline {
       }
 
       for (int i = 0; i < Data.Length; i += 4) {
-        Int16[] value = DataValues[(int) (new Random().NextDouble() * 2)];
+        Int16[] value = DataValues[(int) (random.NextDouble() * 2)];
         for (int j = 0; j < 4; ++j) {
           Data[i + j] = value[j];
         }

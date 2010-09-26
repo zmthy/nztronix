@@ -6,7 +6,7 @@ using tape.pipeline;
 namespace test.pipeline {
 
   [TestFixture]
-  class AudioRecorderTest {
+  public class AudioRecorderTest {
 
     [Test]
     public void TestInput() {

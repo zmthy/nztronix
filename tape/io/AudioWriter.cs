@@ -15,10 +15,14 @@ namespace tape.io {
                                           };
 
     public void WriteSoundData(SoundData data, string location) {
+      WriteSoundData(data, location, 1);
+    }
+
+    public void WriteSoundData(SoundData data, string location, int rate) {
       Stream stream = GetStream(location);
 
       BinaryWriter writer = new BinaryWriter(stream);
-      int size = data.Length * data.BitsPerSample / 8;
+      int size = (data.Length / rate) * data.BitsPerSample / 8;
 
       // The "RIFF" chunk descriptor.
       writer.Write("RIFF".ToCharArray());
@@ -30,7 +34,7 @@ namespace tape.io {
       writer.Write((Int32) 16);
       writer.Write((Int16) data.CompressionCode);
       writer.Write((Int16) 1);
-      writer.Write((Int32) data.SampleRate);
+      writer.Write((Int32) data.SampleRate / rate);
       writer.Write((Int32) data.BytesPerSecond);
       writer.Write((Int16) data.BlockAlign);
       writer.Write((Int16) data.BitsPerSample);
@@ -39,8 +43,13 @@ namespace tape.io {
       writer.Write("data".ToCharArray());
       writer.Write((Int32) size);
 
+      int rateCount = 0;
       foreach (Int16 sample in data) {
-        writer.Write(sample);
+        if (rateCount == 0) {
+          writer.Write(sample);
+          rateCount = rate;
+        }
+        rateCount -= 1;
       }
 
       writer.Close();

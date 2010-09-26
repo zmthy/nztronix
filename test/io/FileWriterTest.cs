@@ -8,7 +8,7 @@ using tape.io;
 namespace test.io {
 
   [TestFixture]
-  class FileWriterTest {
+  public class FileWriterTest {
 
     [Test]
     public void TestWrite() {

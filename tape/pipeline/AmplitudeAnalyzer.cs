@@ -12,6 +12,10 @@ namespace tape.pipeline {
   /// <author>Timothy Jones</author>
   public class AmplitudeAnalyzer {
 
+    public static readonly int AVERAGE_COUNT = 10000;
+
+    private bool Verbose = false;
+
     /// <summary>
     /// Splits sound data into its loudest chunks, ignoring the ambient noise
     /// surrounding them.
@@ -27,7 +31,7 @@ namespace tape.pipeline {
     /// <param name="data">The data to split up.</param>
     /// <returns>The resultant chunks.</returns>
     public SoundData[] SplitChunks(SoundData data) {
-      List<SoundData> chunks = TrimNoise(data.GetEnumerator());
+      List<SoundData> chunks = TrimNoise(data.GetSoundEnumerator());
 
       SoundData[] output = new SoundData[chunks.Count];
       for (int i = 0; i < chunks.Count; ++i) {
@@ -35,6 +39,10 @@ namespace tape.pipeline {
       }
 
       return output;
+    }
+
+    public void SetVerbosity(bool verbose) {
+      Verbose = verbose;
     }
 
     /// <summary>
@@ -48,26 +56,26 @@ namespace tape.pipeline {
     /// </remarks>
     /// 
     /// <param name="data">The data to trim.</param>
-    private List<SoundData> TrimNoise(IEnumerator<Int16> ie) {
+    private List<SoundData> TrimNoise(SoundData.SoundEnumerator ie) {
       List<SoundData> chunks = new List<SoundData>();
       float average = 0;
       int count = 0;
 
       ie.MoveNext();
-
+      
       do {
-        Int16 level = ie.Current;
+        Int16 level = ie.Current, abs = Math.Abs(level);
 
         // Eat a little first to even out the average, then start checking.
-        if (count >= 20) {
-          if (level > 5 * average && IsLeader(ie)) {
+        if (count >= AVERAGE_COUNT) {
+          if (abs > 5 * average && IsLeader(ie)) {
             chunks.Add(RipChunk(ie, average));
           }
         }
 
         // Don't let data or spikes screw up our noise muffler.
-        if (count < 20 || !(level > 5 * average)) {
-          average = (average * count + level) / ++count;
+        if (count < AVERAGE_COUNT || !(abs > 5 * average)) {
+          average = (average * count + abs) / ++count;
         } else {
           count++;
         }
@@ -84,7 +92,7 @@ namespace tape.pipeline {
     /// 
     /// <param name="ie">The enumerator of data.</param>
     /// <returns>Whether the data was a leader field.</returns>
-    private bool IsLeader(IEnumerator<Int16> ie) {
+    private bool IsLeader(SoundData.SoundEnumerator ie) {
       // Probably the start of some data! Let's just check a couple more
       // data points to make sure.
       FrequencyAnalyzer analyzer = new FrequencyAnalyzer();
@@ -93,19 +101,25 @@ namespace tape.pipeline {
       try {
         // The leader field is 3600 bits long.
         for (int i = 0; i < 3600; ++i) {
-          for (int j = 0; j < 4; ++j) {
-            sample[j] = ie.Current;
-            if (!ie.MoveNext()) {
-              return false;
-            }
+          sample = ie.CurrentFour;
+          if (sample == null) {
+            return false;
           }
 
           // Normalise the sample to check if it fits the leader spec.
           bool[] sizes = analyzer.NormalizeSample(ie, sample);
-          if (sizes[2] != true) {
+          if (!sizes[2]) {
+            if (sample[0] > 10000) {
+              for (int k = 0; k < 4; ++k) {
+                Console.Write(sample[k] + " ");
+              }
+              Console.WriteLine();
+            }
             // The leader field is all 1s.
             return false;
           }
+
+          ie.MoveNextFour();
         }
 
         // Nothing thrown, so we have data.

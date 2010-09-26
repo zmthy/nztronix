@@ -52,16 +52,20 @@ namespace tape.data {
     }
 
     public IEnumerator<Int16> GetEnumerator() {
-      return new DataEnumerator(Data);
+      return new SoundEnumerator(Data);
     }
 
-    public class DataEnumerator : IEnumerator<Int16> {
+    public SoundEnumerator GetSoundEnumerator() {
+      return new SoundEnumerator(Data);
+    }
+
+    public class SoundEnumerator : IEnumerator<Int16> {
 
       private readonly Int16[] Data;
       private int Position = -1;
       private bool Disposed = false;
 
-      public DataEnumerator(Int16[] data) {
+      public SoundEnumerator(Int16[] data) {
         Data = data;
       }
 
@@ -77,11 +81,34 @@ namespace tape.data {
         }
       }
 
+      public Int16[] CurrentFour {
+        get {
+          if (Position > Data.Length - 4) {
+            return null;
+          }
+          Int16[] data = new Int16[4];
+          for (int i = 0; i < 4; ++i) {
+            data[i] = Data[Position + i];
+          }
+          return data;
+        }
+      }
+
       public bool MoveNext() {
         if (Position < Data.Length - 1) {
           Position += 1;
           return true;
         } else {
+          return false;
+        }
+      }
+
+      public bool MoveNextFour() {
+        if (Position < Data.Length - 4) {
+          Position += 4;
+          return true;
+        } else {
+          Position = Data.Length;
           return false;
         }
       }

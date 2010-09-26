@@ -19,7 +19,7 @@ namespace tape.data {
       }
     }
 
-    public CassetteData(String filename, int length, ByteData program) {
+    public CassetteData(string filename, ByteData program) {
       Filename = filename;
       Program = program;
     }

@@ -1,11 +1,18 @@
 ﻿using System;
 using Microsoft.DirectX.DirectSound;
+using tape.data;
+using tape.pipeline;
 
 namespace tape {
   
   public class TapeConverter {
 
     private CaptureDevicesCollection devices;
+    private AudioRecorder recorder = new AudioRecorder();
+    private AmplitudeAnalyzer amplitude = new AmplitudeAnalyzer();
+    private FrequencyAnalyzer frequency = new FrequencyAnalyzer();
+
+    private string outputLoc = null;
 
     /// <summary>
     /// Obtains a list of the audio input devices attached to the computer.
@@ -33,7 +40,7 @@ namespace tape {
     /// 
     /// <param name="name">The name of the device.</param>
     /// <returns>The named device.</returns>
-    public Capture GetAudioInputDevice(string name) {
+    private Capture GetAudioInputDevice(string name) {
       if (devices == null) {
         devices = new CaptureDevicesCollection();
       }
@@ -46,7 +53,23 @@ namespace tape {
       throw new ArgumentException("No input device with that name was found.");
     }
 
-    public static void Main() {}
+    public void Record(string device) {
+      if (outputLoc == null) {
+        throw new Exception("No output specified.");
+      }
+      recorder.Record(GetAudioInputDevice(device));
+    }
+
+    public void Stop() {
+      SoundData data = recorder.Stop();
+      SoundData[] chunks = amplitude.SplitChunks(data);
+      for (int i = 0; i < chunks.Length; ++i) {
+        BinaryData bin = frequency.ConvertToSquare(chunks[i]);
+        ByteData byt = new ByteData(bin);
+      }
+    }
+
+    public static void Main() { }
 
   }
 

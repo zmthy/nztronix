@@ -130,7 +130,7 @@ namespace tape.pipeline {
     /// 
     /// <param name="sample">The sample to get the relative sizes of.</param>
     /// <returns>The relative sizes of the sample.</returns>
-    private bool[] GetRelativeSizes(Int16[] sample) {
+    public bool[] GetRelativeSizes(Int16[] sample) {
       // Using `B` to represent a big value, and `S` to represent a small one.
 
       bool[] sizes = { false, false, false, false };
@@ -142,13 +142,23 @@ namespace tape.pipeline {
       // By the above assumption, these two must be on different portions.
       // Compare the outer values (which must always be on different samples).
       bool outerLeft = sample[0] > sample[3];
-      Int16 outerBig = outerLeft ? sample[0] : sample[3];
-      Int16 outerSmall = outerLeft ? sample[3] : sample[0];
+      int outerBig = outerLeft ? sample[0] : sample[3];
+      int outerSmall = outerLeft ? sample[3] : sample[0];
+      int outerDiff = outerBig - outerSmall;
 
       // Compare the inner values (which can be the same sample).
       bool innerLeft = sample[1] > sample[2];
-      Int16 innerBig = innerLeft ? sample[1] : sample[2];
-      Int16 innerSmall = innerLeft ? sample[2] : sample[1];
+      int innerBig = innerLeft ? sample[1] : sample[2];
+      int innerSmall = innerLeft ? sample[2] : sample[1];
+      int innerDiff = innerBig - innerSmall;
+
+      int innerOuterDiff = Math.Abs(outerSmall - innerBig);
+      {
+        int temp = Math.Abs(outerBig - innerSmall);
+        if (temp < innerOuterDiff) {
+          innerOuterDiff = temp;
+        }
+      }
 
       // We'll start by testing three in a row (the most we can have).
       if (ThreeInARow(outerLeft, sample[0], sample[3], sample[1], sample[2])) {
@@ -177,10 +187,18 @@ namespace tape.pipeline {
       }
 
       // Same again, but not in a row this time.
-      if (Math.Abs(sample[0] - sample[3]) < Math.Abs(sample[1] - sample[2]) &&
-          Math.Abs(outerSmall - innerBig) < Math.Abs(sample[1] - sample[2])) {
-        // We MIGHT have a match on the outside.
-        if (outerSmall > innerSmall) {
+      if (outerDiff < innerDiff && innerDiff > innerOuterDiff &&
+          (innerBig > outerBig &&
+            (Math.Abs(outerBig - innerSmall) < innerBig - outerBig &&
+             Math.Abs(outerSmall - innerSmall) < innerBig - outerSmall) ||
+          innerSmall < outerSmall &&
+            (Math.Abs(outerBig - innerBig) < outerBig - innerSmall &&
+             Math.Abs(outerSmall - innerBig) < outerSmall - innerSmall))) {
+        int inner = innerSmall;
+        if (Math.Abs(outerSmall - innerBig) < Math.Abs(outerSmall - inner)) {
+          inner = innerBig;
+        }
+        if (inner == innerBig) {
           // BSBB or BBSB
           sizes[0] = sizes[3] = sizes[innerLeft ? 1 : 2] = true;
         } else {

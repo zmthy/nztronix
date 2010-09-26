@@ -14,6 +14,8 @@ namespace tape.pipeline {
   /// <author>Timothy Jones</author>
   public class AudioRecorder {
 
+    private bool recording = false;
+
     /// <summary>
     /// Visual Studio doesn't like the constructors of some types that we need
     /// in this class. This method will return an instance of the given type by
@@ -38,7 +40,11 @@ namespace tape.pipeline {
     /// 
     /// <param name="capture">The input to record from.</param>
     /// <returns>The audio data recorded from the input.</returns>
-    public SoundData Record(Capture capture) {
+    public void Record(Capture capture) {
+      if (recording) {
+        throw new Exception("Already recording.");
+      }
+
       WaveFormat format = (WaveFormat) GetAmibiguousType(typeof(WaveFormat));
       format.SamplesPerSecond = 96000;
       format.BitsPerSample = 16;
@@ -69,6 +75,7 @@ namespace tape.pipeline {
       List<Int16> data = new List<Int16>();
 
       buffer.Start(true);
+      recording = true;
 
       // for (int i = 0; i < 10000; ++i) {
       Array read;
@@ -99,7 +106,13 @@ namespace tape.pipeline {
       }
 
       buffer.Stop();
+    }
 
+    public SoundData Stop() {
+      if (!recording) {
+        throw new Exception("Not currently recording.");
+      }
+      recording = false;
       return null;
     }
 

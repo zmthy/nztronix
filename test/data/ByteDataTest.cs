@@ -6,7 +6,7 @@ using tape.data;
 namespace test.data {
 
   [TestFixture]
-  class ByteDataTest {
+  public class ByteDataTest {
 
     [Test]
     public void TestConversion() {

@@ -43,14 +43,33 @@ namespace tape.io {
       writer.Write("data".ToCharArray());
       writer.Write((Int32) size);
 
-      int rateCount = 0;
       foreach (Int16 sample in data) {
-        if (rateCount == 0) {
-          writer.Write(sample);
-          rateCount = rate;
-        }
-        rateCount -= 1;
+        writer.Write((Int16) sample);
       }
+
+      //int rateCount = rate;
+      //int posCount = 0;
+      //int negCount = 0;
+      //foreach (Int16 sample in data) {
+      //  if (sample > 5000) {
+      //    posCount += 1;
+      //  } else if (sample < -5000) {
+      //    negCount += 1;
+      //  }
+      //  if (rateCount == 0) {
+      //    if (posCount > negCount) {
+      //      writer.Write(15000);
+      //    } else if (negCount > posCount) {
+      //      writer.Write(-15000);
+      //    } else {
+      //      writer.Write(0);
+      //    }
+      //    posCount = 0;
+      //    negCount = 0;
+      //    rateCount = rate;
+      //  }
+      //  rateCount -= 1;
+      //}
 
       writer.Close();
       stream.Close();

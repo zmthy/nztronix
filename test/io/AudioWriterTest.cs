@@ -15,8 +15,8 @@ namespace test.io {
       AudioWriter writer = new AudioWriter();
 
       SoundData original = reader.ReadSoundFile("../../../data/sine.wav");
-      writer.WriteSoundData(original, "../../../data/written.wav");
-      SoundData written = reader.ReadSoundFile("../../../data/written.wav");
+      writer.WriteSoundData(original,           "../../../data/written.wav");
+      SoundData written = reader.ReadSoundFile( "../../../data/written.wav");
 
       Assert.AreEqual(original.Length, written.Length, "The written data " +
                       "should be of the same length as the read data.");
@@ -40,7 +40,7 @@ namespace test.io {
 
       SoundData original =
           reader.ReadSoundFile("../../../data/file-system.wav");
-      writer.WriteSoundData(original, "../../../data/throttled.wav", 12);
+      writer.WriteSoundData(original, "../../../data/throttled.wav", 10);
     }
 
   }

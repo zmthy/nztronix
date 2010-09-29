@@ -40,7 +40,7 @@ namespace tape {
     /// 
     /// <param name="name">The name of the device.</param>
     /// <returns>The named device.</returns>
-    private Capture GetAudioInputDevice(string name) {
+    public Capture GetAudioInputDevice(string name) {
       if (devices == null) {
         devices = new CaptureDevicesCollection();
       }
@@ -68,8 +68,6 @@ namespace tape {
         ByteData byt = new ByteData(bin);
       }
     }
-
-    public static void Main() { }
 
   }
 

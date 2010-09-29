@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using Microsoft.DirectX.DirectSound;
 using tape.data;
 
@@ -15,6 +16,7 @@ namespace tape.pipeline {
   public class AudioRecorder {
 
     private bool recording = false;
+    private List<Int16> data = null;
 
     /// <summary>
     /// Visual Studio doesn't like the constructors of some types that we need
@@ -72,40 +74,36 @@ namespace tape.pipeline {
       }
 
       int offset = 0;
-      List<Int16> data = new List<Int16>();
+      data = new List<Int16>();
 
-      buffer.Start(true);
       recording = true;
+      new Thread((ThreadStart) delegate {
+        buffer.Start(true);
 
-      // for (int i = 0; i < 10000; ++i) {
-      Array read;
-      try {
-        read = buffer.Read(offset, typeof(byte), LockFlag.None,
-                           outputSize);
-      } catch {
-        throw new IOException(
-            "An error occurred attempting to read the input data.");
-      }
-      offset = (offset + outputSize) % inputSize;
-
-      bool written = false;
-      Int16 old = 0;
-      foreach (byte b in read) {
-        if (!written) {
-          old = (Int16) (b << 8);
-        } else {
-          old = (Int16) (old & b);
-          data.Add(old);
+        Array read;
+        try {
+          read = buffer.Read(offset, typeof(byte), LockFlag.None,
+                             outputSize);
+        } catch {
+          throw new IOException(
+              "An error occurred attempting to read the input data.");
         }
-        written = !written;
-      }
-      // }
+        offset = (offset + outputSize) % inputSize;
 
-      foreach (Int16 d in data) {
-        Console.Write(d + " ");
-      }
+        bool written = false;
+        Int16 old = 0;
+        foreach (byte b in read) {
+          if (!written) {
+            old = (Int16) (b << 8);
+          } else {
+            old = (Int16) (old & b);
+            data.Add(old);
+          }
+          written = !written;
+        }
 
-      buffer.Stop();
+        buffer.Stop();
+      }).Start();
     }
 
     public SoundData Stop() {
@@ -113,7 +111,7 @@ namespace tape.pipeline {
         throw new Exception("Not currently recording.");
       }
       recording = false;
-      return null;
+      return new SoundData(data);
     }
 
   }

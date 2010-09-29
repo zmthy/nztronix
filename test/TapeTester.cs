@@ -19,8 +19,6 @@ namespace test {
       Assert.AreEqual(2, chunks.Length, "Two chunks are in the file.");
     }
 
-    public static void Main() {}
-
   }
 
 }

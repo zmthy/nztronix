@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Tape.Data;
 
@@ -87,8 +88,7 @@ namespace Tape.IO {
       stream.Close();
       stream.Dispose();
 
-      return new SoundData(data, compressionCode, sampleRate, bytesPerSecond,
-                           bitsPerSample, blockAlign, duration);
+      return new SoundData(new List<Int16>(data), sampleRate, bitsPerSample);
     }
 
     private void ValidateFormat(BinaryReader reader, string expected) {

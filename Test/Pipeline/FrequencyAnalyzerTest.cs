@@ -108,7 +108,7 @@ namespace Test.Pipeline {
                        50,
                        50
                      };
-      SoundData audio = new SoundData(data, 0, 0, 0, 0, 0, 0);
+      SoundData audio = new SoundData(new List<Int16>(data));
       BinaryData bin = analyzer.ConvertToSquare(audio);
       IEnumerator<bool> ie = bin.GetEnumerator();
 
@@ -126,7 +126,7 @@ namespace Test.Pipeline {
                        50,
                        50
                      };
-      SoundData audio = new SoundData(data, 0, 0, 0, 0, 0, 0);
+      SoundData audio = new SoundData(new List<Int16>(data));
 
       try {
         BinaryData bin = analyzer.ConvertToSquare(audio);
@@ -149,7 +149,7 @@ namespace Test.Pipeline {
                        34,
                        34
                      };
-      SoundData audio = new SoundData(data, 0, 0, 0, 0, 0, 0);
+      SoundData audio = new SoundData(new List<Int16>(data));
       BinaryData bin = analyzer.ConvertToSquare(audio);
       IEnumerator<bool> ie = bin.GetEnumerator();
 

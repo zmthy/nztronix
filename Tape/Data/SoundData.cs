@@ -14,33 +14,26 @@ namespace Tape.Data {
 
     private readonly Int16[] Data;
     public readonly double Duration;
-    public readonly int CompressionCode,
-                        SampleRate,
-                        BytesPerSecond,
-                        BitsPerSample,
-                        BlockAlign;
+    public readonly int SampleRate,
+                        BitsPerSample;
     public int Length {
       get {
         return Data.Length;
       }
     }
 
-    public SoundData(Int16[] data, int compressionCode, int sampleRate,
-                 int bytesPerSecond, int bitsPerSample, int blockAlign,
-                 double duration) {
-      CompressionCode = compressionCode;
+    public SoundData(List<Int16> data, int sampleRate, int bitsPerSample) {
       SampleRate = sampleRate;
-      BytesPerSecond = bytesPerSecond;
       BitsPerSample = bitsPerSample;
-      BlockAlign = blockAlign;
-      Duration = duration;
-      Data = new Int16[data.Length];
-      for (int i = 0; i < data.Length; ++i) {
+      Data = new Int16[data.Count];
+      for (int i = 0; i < data.Count; ++i) {
         Data[i] = data[i];
       }
     }
 
     public SoundData(List<Int16> data) {
+      SampleRate = 96000;
+      BitsPerSample = 16;
       Data = new Int16[data.Count];
       for (int i = 0; i < data.Count; ++i) {
         Data[i] = data[i];

@@ -4,6 +4,7 @@ using Microsoft.DirectX.DirectSound;
 using NUnit.Framework;
 using Tape;
 using Tape.Data;
+using Tape.IO;
 using Tape.Pipeline;
 
 namespace Test.Pipeline {
@@ -20,11 +21,8 @@ namespace Test.Pipeline {
           input.Record(converter.GetAudioInputDevice(s));
           System.Threading.Thread.Sleep(5000);
           SoundData audio = input.Stop();
-          IEnumerator<Int16> data = audio.GetEnumerator();
-          for (int i = 0; i < 10; ++i) {
-            data.MoveNext();
-            // Console.WriteLine(data.Current);
-          }
+          AudioWriter writer = new AudioWriter();
+          writer.WriteSoundData(audio, "../../../data/recorded.wav");
           return;
         }
       }

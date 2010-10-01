@@ -28,7 +28,7 @@ namespace Test.Data {
       Int16[] data = {
                        1, 2, 3, 4, 5, 6, 7, 8, 9, 10
                      };
-      SoundData audio = new SoundData(data, 0, 0, 0, 0, 0, 0);
+      SoundData audio = new SoundData(new List<Int16>(data));
       IEnumerator<Int16> ie = audio.GetEnumerator();
       for (int i = 0; i < data.Length; ++i) {
         ie.MoveNext();

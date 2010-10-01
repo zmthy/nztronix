@@ -32,11 +32,11 @@ namespace Tape.IO {
       // The "fmt" sub-chunk.
       writer.Write("fmt ".ToCharArray());
       writer.Write((Int32) 16);
-      writer.Write((Int16) data.CompressionCode);
+      writer.Write((Int16) 1);
       writer.Write((Int16) 1);
       writer.Write((Int32) data.SampleRate / rate);
-      writer.Write((Int32) data.BytesPerSecond);
-      writer.Write((Int16) data.BlockAlign);
+      writer.Write((Int32) data.SampleRate * data.BitsPerSample / 8);
+      writer.Write((Int16) data.BitsPerSample);
       writer.Write((Int16) data.BitsPerSample);
 
       // The "data" sub-chunk.

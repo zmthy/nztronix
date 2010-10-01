@@ -13,6 +13,7 @@ namespace Tape.Pipeline {
   /// </summary>
   /// 
   /// <author>Timothy Jones</author>
+  /// <author>Casey Orr</author>
   public class AudioRecorder {
 
     private bool Recording = false;
@@ -100,12 +101,10 @@ namespace Tape.Pipeline {
       new Thread((ThreadStart) delegate {
         buffer.Start(true);
 
-        // Let the buffer fill up once it starts up.
-        reset.WaitOne();
-
         while (Recording) {
           // Let the buffer fill up from the last read.
           reset.WaitOne();
+
           byte[] read;
           try {
             read = (byte[]) buffer.Read(offset, typeof(byte), LockFlag.None,
@@ -120,9 +119,9 @@ namespace Tape.Pipeline {
           Int16 old = 0;
           foreach (byte b in read) {
             if (!written) {
-              old = (Int16) (b << 8);
+              old = (Int16) b;
             } else {
-              old = (Int16) (old | (Int16) b);
+              old = (Int16) (old | (((Int16) (b << 8))));
               Data.Add(old);
             }
             written = !written;
@@ -133,6 +132,11 @@ namespace Tape.Pipeline {
       }).Start();
     }
 
+    /// <summary>
+    /// Stops the recording and compiles the recorded data.
+    /// </summary>
+    /// 
+    /// <returns>The recorded data.</returns>
     public SoundData Stop() {
       if (!Recording) {
         throw new Exception("Not currently recording.");

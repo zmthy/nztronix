@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 
-namespace tape.data {
+namespace Tape.Data {
 
   /// <summary>
   /// Holds binary data converted from audio input.

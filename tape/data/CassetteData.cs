@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace tape.data {
+namespace Tape.Data {
 
   /// <summary>
   /// Represents the data on the cassette in object form.

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using tape.data;
+using Tape.Data;
 
-namespace tape.pipeline {
+namespace Tape.Pipeline {
 
   /// <summary>
   /// Analyses sound data using amplitude as a guide. As a result, it can split

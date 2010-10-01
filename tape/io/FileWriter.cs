@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using tape.data;
+using Tape.Data;
 
-namespace tape.io {
+namespace Tape.IO {
 
   public class FileWriter {
 

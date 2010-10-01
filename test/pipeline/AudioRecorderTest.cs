@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using Microsoft.DirectX.DirectSound;
 using NUnit.Framework;
-using tape;
-using tape.data;
-using tape.pipeline;
+using Tape;
+using Tape.Data;
+using Tape.Pipeline;
 
-namespace test.pipeline {
+namespace Test.Pipeline {
 
   [TestFixture]
   public class AudioRecorderTest {
@@ -23,7 +23,7 @@ namespace test.pipeline {
           IEnumerator<Int16> data = audio.GetEnumerator();
           for (int i = 0; i < 10; ++i) {
             data.MoveNext();
-            Console.WriteLine(data.Current);
+            // Console.WriteLine(data.Current);
           }
           return;
         }

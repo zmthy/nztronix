@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using tape.data;
+using Tape.Data;
 
-namespace test.data {
+namespace Test.Data {
 
   [TestFixture]
   public class ByteDataTest {

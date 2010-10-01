@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.DirectX.DirectSound;
-using tape.data;
-using tape.pipeline;
+using Tape.Data;
+using Tape.IO;
+using Tape.Pipeline;
 
-namespace tape {
+namespace Tape {
   
   public class TapeConverter {
 
@@ -60,13 +61,19 @@ namespace tape {
       recorder.Record(GetAudioInputDevice(device));
     }
 
-    public void Stop() {
+    public void Stop(string location) {
       SoundData data = recorder.Stop();
-      SoundData[] chunks = amplitude.SplitChunks(data);
-      for (int i = 0; i < chunks.Length; ++i) {
-        BinaryData bin = frequency.ConvertToSquare(chunks[i]);
-        ByteData byt = new ByteData(bin);
-      }
+      AudioWriter writer = new AudioWriter();
+      writer.WriteSoundData(data, location + "/master.wav");
+      // SoundData[] chunks = amplitude.SplitChunks(data);
+      //for (int i = 0; i < chunks.Length; ++i) {
+      //  BinaryData bin = frequency.ConvertToSquare(chunks[i]);
+      //  ByteData byt = new ByteData(bin);
+      //}
+    }
+
+    public void Cancel() {
+      recorder.Stop();
     }
 
   }

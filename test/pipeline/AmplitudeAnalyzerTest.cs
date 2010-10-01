@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using tape.data;
-using tape.pipeline;
+using Tape.Data;
+using Tape.Pipeline;
 
-namespace test.pipeline {
+namespace Test.Pipeline {
 
   [TestFixture]
   public class AmplitudeAnalyzerTest {

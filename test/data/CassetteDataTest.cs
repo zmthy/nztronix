@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using tape.data;
-using tape.io;
+using Tape.Data;
+using Tape.IO;
 
-namespace test.data {
+namespace Test.Data {
 
   [TestFixture]
   public class CassetteDataTest {

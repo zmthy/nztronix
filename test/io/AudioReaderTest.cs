@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using NUnit.Framework;
-using tape.data;
-using tape.io;
+using Tape.Data;
+using Tape.IO;
 
-namespace test.io {
+namespace Test.IO {
 
   [TestFixture]
   public class AudioReaderTest {

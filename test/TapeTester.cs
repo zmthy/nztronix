@@ -1,10 +1,10 @@
 ﻿using System;
 using NUnit.Framework;
-using tape.data;
-using tape.io;
-using tape.pipeline;
+using Tape.Data;
+using Tape.IO;
+using Tape.Pipeline;
 
-namespace test {
+namespace Test {
 
   [TestFixture]
   public class TapeTester {

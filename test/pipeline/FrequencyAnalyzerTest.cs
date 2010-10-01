@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using tape.data;
-using tape.io;
-using tape.pipeline;
+using Tape.Data;
+using Tape.IO;
+using Tape.Pipeline;
 
-namespace test.pipeline {
+namespace Test.Pipeline {
 
   [TestFixture]
   public class FrequencyAnalyzerTest {

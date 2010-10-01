@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using tape.data;
+using Tape.Data;
 
-namespace tape.pipeline {
+namespace Tape.Pipeline {
 
   /// <summary>
   /// A class for processing prerecorded sound data into different formats.

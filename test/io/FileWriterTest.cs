@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using System.Text;
-using tape.data;
-using tape.io;
+using Tape.Data;
+using Tape.IO;
 
-namespace test.io {
+namespace Test.IO {
 
   [TestFixture]
   public class FileWriterTest {

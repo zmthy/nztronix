@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace tape.data {
+namespace Tape.Data {
 
   /// <summary>
   /// Holds the sound data recorded from a cassette tape.

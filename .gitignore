@@ -6,6 +6,7 @@ test/obj/*
 *.sln
 *.suo
 *.csproj
+*.csproj.user
 *.pidb
 file-system.wav
 app.config

@@ -1,3 +1,4 @@
+data/*
 tape/bin/*
 tape/obj/*
 test/bin/*

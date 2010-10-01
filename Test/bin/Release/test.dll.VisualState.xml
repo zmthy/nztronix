@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1030]Test</TopNode>
+  <SelectedNode>[0-1029]C:\Users\Timothy\Projects\nztronix\test\bin\Release\test.dll</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1029]C:\Users\Timothy\Projects\nztronix\test\bin\Release\test.dll" Expanded="true" />
+    <Node UniqueName="[0-1030]Test" Expanded="true" />
+    <Node UniqueName="[0-1031]Test.Data" Expanded="true" />
+    <Node UniqueName="[0-1000]Test.Data.BinaryDataTest" Expanded="true" />
+    <Node UniqueName="[0-1009]Test.Data.ByteDataTest" Expanded="true" />
+    <Node UniqueName="[0-1011]Test.Data.CassetteDataTest" Expanded="true" />
+    <Node UniqueName="[0-1015]Test.Data.SoundDataTest" Expanded="true" />
+    <Node UniqueName="[0-1033]Test.IO" Expanded="true" />
+    <Node UniqueName="[0-1006]Test.IO.AudioReaderTest" Expanded="true" />
+    <Node UniqueName="[0-1024]Test.IO.AudioWriterTest" Expanded="true" />
+    <Node UniqueName="[0-1027]Test.IO.FileWriterTest" Expanded="true" />
+    <Node UniqueName="[0-1032]Test.pipeline" Expanded="true" />
+    <Node UniqueName="[0-1013]Test.pipeline.AmplitudeAnalyzerTest" Expanded="true" />
+    <Node UniqueName="[0-1004]Test.pipeline.AudioRecorderTest" Expanded="true" />
+    <Node UniqueName="[0-1018]Test.pipeline.FrequencyAnalyzerTest" Expanded="true" />
+    <Node UniqueName="[0-1002]Test.TapeTester" Expanded="true" />
+  </Nodes>
+</VisualState>

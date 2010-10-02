@@ -1,35 +1,16 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Tape.Data {
 
-  /// <summary>
-  /// Represents the data on the cassette in object form.
-  /// </summary>
-  /// 
-  /// <author>Timothy Jones</author>
-  public class CassetteData : IEnumerable<byte> {
+  public class CassetteData {
 
-    public readonly String Filename;
-    private readonly ByteData Program;
-    public int Length {
-      get {
-        return Program.Length;
-      }
-    }
+    public readonly MetaData Meta;
+    public readonly ProgramData Program;
 
-    public CassetteData(string filename, ByteData program) {
-      Filename = filename;
+    public CassetteData(MetaData meta, ProgramData program) {
+      Meta = meta;
       Program = program;
-    }
-
-    IEnumerator IEnumerable.GetEnumerator() {
-      return (IEnumerator) GetEnumerator();
-    }
-
-    public IEnumerator<byte> GetEnumerator() {
-      return Program.GetEnumerator();
     }
 
   }

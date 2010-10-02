@@ -13,7 +13,6 @@ namespace Tape.Data {
   public class SoundData : IEnumerable<Int16> {
 
     private readonly Int16[] Data;
-    public readonly double Duration;
     public readonly int SampleRate,
                         BitsPerSample;
     public int Length {
@@ -45,20 +44,22 @@ namespace Tape.Data {
     }
 
     public IEnumerator<Int16> GetEnumerator() {
-      return new SoundEnumerator(Data);
+      return new SoundEnumerator(this, Data);
     }
 
     public SoundEnumerator GetSoundEnumerator() {
-      return new SoundEnumerator(Data);
+      return new SoundEnumerator(this, Data);
     }
 
     public class SoundEnumerator : IEnumerator<Int16> {
 
+      private readonly SoundData Audio;
       private readonly Int16[] Data;
       private int Position = -1;
       private bool Disposed = false;
 
-      public SoundEnumerator(Int16[] data) {
+      public SoundEnumerator(SoundData audio, Int16[] data) {
+        Audio = audio;
         Data = data;
       }
 
@@ -115,6 +116,10 @@ namespace Tape.Data {
       public void Dispose() {
         Position = Data.Length;
         Disposed = true;
+      }
+
+      public override string ToString() {
+        return Position * (1.0 / Audio.SampleRate) + "";
       }
 
     }

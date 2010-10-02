@@ -20,8 +20,8 @@ namespace Test.Data {
                      };
       List<bool> list = new List<bool>();
       list.AddRange(data);
-      CassetteData cassette =
-          new CassetteData(name, new ByteData(new BinaryData(list)));
+      OldCassetteData cassette =
+          new OldCassetteData(name, new ByteData(new BinaryData(list)));
 
       Assert.AreEqual(name, cassette.Filename, "Name equality.");
 

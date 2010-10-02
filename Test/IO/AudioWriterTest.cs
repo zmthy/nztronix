@@ -33,16 +33,6 @@ namespace Test.IO {
       enumWritten.Dispose();
     }
 
-    [Test]
-    public void TestRate() {
-      AudioReader reader = new AudioReader();
-      AudioWriter writer = new AudioWriter();
-
-      SoundData original =
-          reader.ReadSoundFile("../../../data/file-system.wav");
-      writer.WriteSoundData(original, "../../../data/throttled.wav", 10);
-    }
-
   }
 
 }

@@ -13,8 +13,6 @@ namespace Test.IO {
     public void TestRead() {
       AudioReader reader = new AudioReader();
       SoundData data = reader.ReadSoundFile("../../../data/sine.wav");
-      Assert.AreEqual(1, data.Duration,
-                      "The duration of the data is one second");
     }
 
     [Test]

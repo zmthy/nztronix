@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Tape.Data;
+using Tape.Data.Cassettes;
 using Tape.IO;
 using Tape.Pipeline;
 
@@ -12,11 +14,28 @@ namespace Test {
     [Test]
     public void TestPipeline() {
       AudioReader reader = new AudioReader();
-      SoundData audio = reader.ReadSoundFile("../../../data/file-system.wav");
-      AmplitudeAnalyzer ampAnalyzer = new AmplitudeAnalyzer();
-      ampAnalyzer.SetVerbosity(true);
-      SoundData[] chunks = ampAnalyzer.SplitChunks(audio);
-      Assert.AreEqual(2, chunks.Length, "Two chunks are in the file.");
+      SoundData data = reader.ReadSoundFile("../../../Data/file-system.wav");
+      CassetteData[] cassettes = new DataChunker().ChunkData(data, false);
+      Assert.AreEqual(1, cassettes.Length);
+      CassetteData cassette = cassettes[0];
+      AudioWriter writer = new AudioWriter();
+      writer.WriteCassetteData(cassette, "../../../Data/processed.wav");
+      data = reader.ReadSoundFile("../../../Data/processed.wav");
+      cassettes = new DataChunker().ChunkData(data, true);
+      Assert.AreEqual(1, cassettes.Length);
+      CassetteData cassette2 = cassettes[0];
+      Assert.AreEqual(cassette.Meta.Key, cassette2.Meta.Key);
+      Assert.AreEqual(cassette.Meta.FileName, cassette2.Meta.FileName);
+      Assert.AreEqual(cassette.Meta.ProgramSize, cassette2.Meta.ProgramSize);
+      Assert.AreEqual(cassette.Meta.Parity, cassette2.Meta.Parity);
+      Assert.AreEqual(cassette.Program.Length, cassette2.Program.Length);
+      Assert.AreEqual(cassette.Program.Key, cassette2.Program.Key);
+      Assert.AreEqual(cassette.Program.Parity, cassette2.Program.Parity);
+      IEnumerator<byte> bytes = cassette.Program.GetEnumerator();
+      foreach (byte b in cassette2.Program) {
+        bytes.MoveNext();
+        Assert.AreEqual(bytes.Current, b);
+      }
     }
 
   }

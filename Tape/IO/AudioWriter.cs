@@ -1,13 +1,14 @@
 ﻿using System;
 using System.IO;
 using Tape.Data;
+using Tape.Data.Cassettes;
 
 namespace Tape.IO {
 
   public class AudioWriter {
 
-    private const Int16 LOWER = 25000, UPPER = -25000;
-    private const int SAMPLE_RATE = 48000, WRITE_RATE = 10;
+    private const Int16 LOWER = -25000, UPPER = 25000;
+    private const int SAMPLE_RATE = 44100, WRITE_RATE = 10;
     private static readonly byte[] BITS = {
                                             1, 2, 4, 8, 16, 32, 64, 128
                                           };
@@ -50,8 +51,9 @@ namespace Tape.IO {
       Stream stream = GetStream(location);
 
       BinaryWriter writer = new BinaryWriter(stream);
-      int size = 2719744;
-      //int size = audio.SampleRate * 11 + 7475 + data.Program.Length;
+      // 2652340
+      int size = SAMPLE_RATE * 22 +
+                 (88 * data.Program.Length + 59888) * WRITE_RATE;
 
       // The "RIFF" chunk descriptor.
       writer.Write("RIFF".ToCharArray());
@@ -72,14 +74,17 @@ namespace Tape.IO {
       writer.Write("data".ToCharArray());
       writer.Write((Int32) size);
 
+      // 10 Seconds
       for (int i = 0; i < SAMPLE_RATE * 10; ++i) {
         writer.Write((Int16) 0);
       }
 
+      // 3600 Bits
       for (int i = 0; i < 3600; ++i) {
         Write(writer, true);
       }
 
+      // 1 Byte.
       Write(writer, data.Meta.Key);
       char[] name = data.Meta.FileName.ToCharArray();
 
@@ -91,34 +96,43 @@ namespace Tape.IO {
         Write(writer, (byte) c);
       }
 
+      // 16 Bytes.
       for (int i = name.Length; i < 16; ++i) {
         Write(writer, (byte) ' ');
       }
 
+      // 3 Bytes.
       Write(writer, data.Meta.ProgramSize);
       Write(writer, data.Meta.Parity);
 
+      // 2 Bytes.
       Write(writer, (byte) 0);
       Write(writer, (byte) 0);
 
+      // 1 Second.
       for (int i = 0; i < SAMPLE_RATE; ++i) {
         writer.Write((Int16) 0);
       }
 
+      // 3600 Bits.
       for (int i = 0; i < 3600; ++i) {
         Write(writer, true);
       }
 
+      // 1 Byte.
       Write(writer, data.Program.Key);
 
+      // Program.Length Bytes.
       foreach (byte b in data.Program) {
         Write(writer, b);
       }
 
-      // TODO Parity.
+      // 1 Byte.
+      Write(writer, data.Program.Parity);
 
-      Write(writer, false);
-      Write(writer, false);
+      // 2 Bytes.
+      Write(writer, (byte) 0);
+      Write(writer, (byte) 0);
 
       writer.Close();
       stream.Close();
@@ -158,7 +172,7 @@ namespace Tape.IO {
       }
       WriteLower(writer);
     }
-
+    
     private void WriteUpper(BinaryWriter writer) {
       for (int i = 0; i < WRITE_RATE; ++i) {
         writer.Write((Int16) UPPER);

@@ -10,8 +10,6 @@ namespace Tape {
 
     private CaptureDevicesCollection devices;
     private AudioRecorder recorder = new AudioRecorder();
-    private AmplitudeAnalyzer amplitude = new AmplitudeAnalyzer();
-    private FrequencyAnalyzer frequency = new FrequencyAnalyzer();
 
     private string outputLoc = null;
 

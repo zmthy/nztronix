@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tape.Data;
+using Tape.Data.Cassettes;
 
 namespace Tape.Pipeline.Parsers {
 

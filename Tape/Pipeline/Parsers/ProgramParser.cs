@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tape.Data;
+using Tape.Data.Cassettes;
 
 namespace Tape.Pipeline.Parsers {
   
@@ -17,13 +17,6 @@ namespace Tape.Pipeline.Parsers {
       // Ignore the rest of the Leader, if we still caught some.
       EatLeader();
 
-      //Verbose = true;
-      //for (int i = 0; i < 8; ++i) {
-      //  Console.Write(Data.ToString());
-      //  Console.Write(" " + NextBit() + " ");
-      //  Console.WriteLine(Data.ToString());
-      //}
-
       // We've already read the start bit here, so just ignore it.
       byte keyCode = PostNextByte();
 
@@ -31,8 +24,13 @@ namespace Tape.Pipeline.Parsers {
       for (int i = 0; i < program.Length; ++i) {
         program[i] = NextByte();
       }
+
+      byte parity = NextByte();
+
+      NextByte();
+      NextByte();
       
-      return new ProgramData(keyCode, program);
+      return new ProgramData(keyCode, program, parity);
     }
 
   }

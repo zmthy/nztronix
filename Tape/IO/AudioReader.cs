@@ -81,7 +81,11 @@ namespace Tape.IO {
       Int16[] data = new Int16[frames];
 
       for (int i = 0; i < frames; ++i) {
-        data[i] = reader.ReadInt16();
+        try {
+          data[i] = reader.ReadInt16();
+        } catch {
+          throw new IOException("Incorrect size listed in WAVE file.");
+        }
       }
 
       reader.Close();

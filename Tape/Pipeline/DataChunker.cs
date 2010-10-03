@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tape.Data;
+using Tape.Data.Cassettes;
 using Tape.Pipeline.Parsers;
 
 namespace Tape.Pipeline {
@@ -15,7 +16,7 @@ namespace Tape.Pipeline {
       IgnoreHead = ignoreHead;
     }
 
-    public CassetteData[] ChunkData(SoundData data) {
+    public CassetteData[] ChunkData(SoundData data, bool verbose) {
       IEnumerator<Int16> ie = data.GetEnumerator();
       float average = 0;
       int count = 0;

@@ -37,26 +37,6 @@ namespace Test.Pipeline {
       Assert.IsFalse(new DataChunker().IsLeader(ie));
     }
 
-    [Test]
-    public void TestRealData() {
-      AudioReader reader = new AudioReader();
-      SoundData data = reader.ReadSoundFile("../../../Data/file-system.wav");
-      CassetteData[] cassettes = new DataChunker().ChunkData(data);
-      Assert.AreEqual(1, cassettes.Length);
-      CassetteData cassette = cassettes[0];
-      AudioWriter writer = new AudioWriter();
-      writer.WriteCassetteData(cassette, "../../../Data/processed.wav");
-      data = reader.ReadSoundFile("../../../Data/processed.wav");
-      cassettes = new DataChunker().ChunkData(data);
-      Assert.AreEqual(1, cassettes.Length);
-      CassetteData cassette2 = cassettes[0];
-      Assert.AreEqual(cassette.Meta.Key, cassette2.Meta.Key);
-      Assert.AreEqual(cassette.Meta.FileName, cassette2.Meta.FileName);
-      Assert.AreEqual(cassette.Meta.ProgramSize, cassette2.Meta.ProgramSize);
-      Assert.AreEqual(cassette.Meta.Parity, cassette2.Meta.Parity);
-
-    }
-
   }
 
 }

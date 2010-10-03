@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
+using Tape;
 using Tape.Data;
 using Tape.Data.Cassettes;
 using Tape.IO;
@@ -15,13 +16,13 @@ namespace Test {
     public void TestPipeline() {
       AudioReader reader = new AudioReader();
       SoundData data = reader.ReadSoundFile("../../../Data/file-system.wav");
-      CassetteData[] cassettes = new DataChunker().ChunkData(data, false);
+      CassetteData[] cassettes = new DataChunker().ChunkData(data);
       Assert.AreEqual(1, cassettes.Length);
       CassetteData cassette = cassettes[0];
       AudioWriter writer = new AudioWriter();
       writer.WriteCassetteData(cassette, "../../../Data/processed.wav");
       data = reader.ReadSoundFile("../../../Data/processed.wav");
-      cassettes = new DataChunker().ChunkData(data, true);
+      cassettes = new DataChunker().ChunkData(data);
       Assert.AreEqual(1, cassettes.Length);
       CassetteData cassette2 = cassettes[0];
       Assert.AreEqual(cassette.Meta.Key, cassette2.Meta.Key);
@@ -36,6 +37,12 @@ namespace Test {
         bytes.MoveNext();
         Assert.AreEqual(bytes.Current, b);
       }
+    }
+
+    [Test]
+    public void TestObject() {
+      TapeConverter converter = new TapeConverter();
+      converter.Process("../../../Data/file-system.wav", "../../../Data");
     }
 
   }

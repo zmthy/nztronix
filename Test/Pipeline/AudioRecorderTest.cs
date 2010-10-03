@@ -14,15 +14,12 @@ namespace Test.Pipeline {
 
     [Test]
     public void TestInput() {
-      AudioRecorder input = new AudioRecorder();
       TapeConverter converter = new TapeConverter();
       foreach (string s in converter.GetAudioInputDeviceNames()) {
         if (s.Contains("Microphone")) {
-          input.Record(converter.GetAudioInputDevice(s));
+          converter.Record(s);
           System.Threading.Thread.Sleep(5000);
-          SoundData audio = input.Stop();
-          AudioWriter writer = new AudioWriter();
-          writer.WriteSoundData(audio, "../../../data/recorded.wav");
+          converter.Stop("../../../data", false);
           return;
         }
       }

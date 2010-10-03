@@ -16,7 +16,7 @@ namespace Tape.Pipeline {
       IgnoreHead = ignoreHead;
     }
 
-    public CassetteData[] ChunkData(SoundData data, bool verbose) {
+    public CassetteData[] ChunkData(SoundData data) {
       IEnumerator<Int16> ie = data.GetEnumerator();
       float average = 0;
       int count = 0;

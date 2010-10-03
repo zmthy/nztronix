@@ -8,7 +8,7 @@ namespace Tape.IO {
   public class AudioWriter {
 
     private const Int16 LOWER = -25000, UPPER = 25000;
-    private const int SAMPLE_RATE = 44100, WRITE_RATE = 10;
+    private const int SAMPLE_RATE = 48000, WRITE_RATE = 10;
     private static readonly byte[] BITS = {
                                             1, 2, 4, 8, 16, 32, 64, 128
                                           };
@@ -51,7 +51,7 @@ namespace Tape.IO {
       Stream stream = GetStream(location);
 
       BinaryWriter writer = new BinaryWriter(stream);
-      // 2652340
+      Console.WriteLine(SAMPLE_RATE);
       int size = SAMPLE_RATE * 22 +
                  (88 * data.Program.Length + 59888) * WRITE_RATE;
 
